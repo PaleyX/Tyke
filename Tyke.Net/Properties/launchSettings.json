@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "Tyke.Net": {
+      "commandName": "Project",
+      "commandLineArgs": "c:\\tyke\\test.txt"
+    }
+  }
+}
