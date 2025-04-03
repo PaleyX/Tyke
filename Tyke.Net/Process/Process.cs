@@ -1,4 +1,3 @@
-﻿namespace Tyke.Net.Process
-{
-    internal class Process : ProcessBase;
-}
+﻿namespace Tyke.Net.Process;
+
+internal class Process : ProcessBase;

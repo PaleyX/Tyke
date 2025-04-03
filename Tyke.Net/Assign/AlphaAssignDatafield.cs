@@ -1,12 +1,11 @@
-﻿namespace Tyke.Net.Assign
-{
-    internal class AlphaAssignDatafield : AlphaAssignBase
-    {
-        internal AlphaAssignDatafield(Data.DatafieldAlpha datafield)
-        {
-            Datafield = datafield;
-        }
+﻿namespace Tyke.Net.Assign;
 
-        internal Data.DatafieldAlpha Datafield { get; private set; }
+internal class AlphaAssignDatafield : AlphaAssignBase
+{
+    internal AlphaAssignDatafield(Data.DatafieldAlpha datafield)
+    {
+        Datafield = datafield;
     }
+
+    internal Data.DatafieldAlpha Datafield { get; private set; }
 }

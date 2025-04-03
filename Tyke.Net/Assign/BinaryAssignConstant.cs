@@ -1,17 +1,16 @@
-﻿namespace Tyke.Net.Assign
+﻿namespace Tyke.Net.Assign;
+
+internal class BinaryAssignConstant : BinaryAssignBase
 {
-    internal class BinaryAssignConstant : BinaryAssignBase
+    private readonly uint _constant;
+
+    internal BinaryAssignConstant(string element)
     {
-        private readonly uint _constant;
+        _constant = Tools.StringTools.Convert<uint>(element);
+    }
 
-        internal BinaryAssignConstant(string element)
-        {
-            _constant = Tools.StringTools.Convert<uint>(element);
-        }
-
-        internal uint GetDWord()
-        {
-            return _constant;
-        }
+    internal uint GetDWord()
+    {
+        return _constant;
     }
 }

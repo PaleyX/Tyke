@@ -1,32 +1,31 @@
-﻿namespace Tyke.Net.Process
+﻿namespace Tyke.Net.Process;
+
+internal class CommandPut() : CommandBase(CommandTypes.Put)
 {
-    internal class CommandPut() : CommandBase(CommandTypes.Put)
+    private Sections.SectionBase _section;
+
+    internal override void ParseCommand(Parser.Tokeniser stack)
     {
-        private Sections.SectionBase _section;
+        // 2 tokens
+        if (!stack.VerifyCount(2))
+            return;
 
-        internal override void ParseCommand(Parser.Tokeniser stack)
-        {
-            // 2 tokens
-            if (!stack.VerifyCount(2))
-                return;
+        // put
+        stack.VerifyAndPop("put");
 
-            // put
-            stack.VerifyAndPop("put");
+        // something which can be put
+        _section = Symbols.SymbolTable.GetSymbol<Sections.SectionBase>(stack.Pop());
+        if (_section == null)
+            return;
 
-            // something which can be put
-            _section = Symbols.SymbolTable.GetSymbol<Sections.SectionBase>(stack.Pop());
-            if (_section == null)
-                return;
+        if (_section.CanPut() == false)
+            Errors.Error.SyntaxError("Section does not support put");
+    }
 
-            if (_section.CanPut() == false)
-                Errors.Error.SyntaxError("Section does not support put");
-        }
+    internal override CommandBase Process()
+    {
+        _section.Process(Sections.SectionActions.Put);
 
-        internal override CommandBase Process()
-        {
-            _section.Process(Sections.SectionActions.Put);
-
-            return Next;
-        }
+        return Next;
     }
 }

@@ -1,8 +1,7 @@
-﻿namespace Tyke.Net.Expressions
+﻿namespace Tyke.Net.Expressions;
+
+internal static class Indicators
 {
-    internal static class Indicators
-    {
-        internal static bool IsEof { get; set; }
-        internal static bool IsEmpty { get; set; }
-    }
+    internal static bool IsEof { get; set; }
+    internal static bool IsEmpty { get; set; }
 }

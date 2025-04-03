@@ -1,45 +1,44 @@
-﻿namespace Tyke.Net.Process
+﻿namespace Tyke.Net.Process;
+
+internal class CommandCast() : CommandBase(CommandTypes.Cast)
 {
-    internal class CommandCast() : CommandBase(CommandTypes.Cast)
+    private Data.DatafieldBase _source;
+    private Data.DatafieldBase _object;
+
+    internal override void ParseCommand(Parser.Tokeniser stack)
     {
-        private Data.DatafieldBase _source;
-        private Data.DatafieldBase _object;
+        // must be 4
+        if (!stack.VerifyCount(4))
+            return;
 
-        internal override void ParseCommand(Parser.Tokeniser stack)
+        // cast
+        stack.VerifyAndPop("cast");
+
+        // datafield
+        _source = Symbols.SymbolTable.GetSymbol<Data.DatafieldBase>(stack.Pop());
+
+        // into
+        stack.VerifyAndPop("into");
+
+        // datafield
+        _object = Symbols.SymbolTable.GetSymbol<Data.DatafieldBase>(stack.Pop());
+
+        // test
+        if(_source == null || _object == null)
         {
-            // must be 4
-            if (!stack.VerifyCount(4))
-                return;
-
-            // cast
-            stack.VerifyAndPop("cast");
-
-            // datafield
-            _source = Symbols.SymbolTable.GetSymbol<Data.DatafieldBase>(stack.Pop());
-
-            // into
-            stack.VerifyAndPop("into");
-
-            // datafield
-            _object = Symbols.SymbolTable.GetSymbol<Data.DatafieldBase>(stack.Pop());
-
-            // test
-            if(_source == null || _object == null)
-            {
-                Errors.Error.SyntaxError(Errors.StdErrors.ExpectedDatafield);
-                return;
-            }
-
-            // can cast
-            if (!_source.CanCast(_object))
-                Errors.Error.SyntaxError("Invalid casting operands");
+            Errors.Error.SyntaxError(Errors.StdErrors.ExpectedDatafield);
+            return;
         }
 
-        internal override CommandBase Process()
-        {
-            _source.Cast(_object);
+        // can cast
+        if (!_source.CanCast(_object))
+            Errors.Error.SyntaxError("Invalid casting operands");
+    }
 
-            return Next;
-        }
+    internal override CommandBase Process()
+    {
+        _source.Cast(_object);
+
+        return Next;
     }
 }

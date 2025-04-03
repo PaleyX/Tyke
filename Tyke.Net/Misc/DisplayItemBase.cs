@@ -1,7 +1,6 @@
-﻿namespace Tyke.Net.Misc
+﻿namespace Tyke.Net.Misc;
+
+internal abstract class DisplayItemBase
 {
-    internal abstract class DisplayItemBase
-    {
-        internal abstract string Value();
-    }
+    internal abstract string Value();
 }

@@ -1,17 +1,16 @@
-﻿namespace Tyke.Net.Sections
+﻿namespace Tyke.Net.Sections;
+
+internal abstract class SectionLkValuesBase : SectionBase
 {
-    internal abstract class SectionLkValuesBase : SectionBase
+    internal SectionLkValuesBase(SectionTypes sectionType)
+        : base(sectionType)
     {
-        internal SectionLkValuesBase(SectionTypes sectionType)
-            : base(sectionType)
-        {
-        }
+    }
 
-        internal abstract string GetDescription(string value);
+    internal abstract string GetDescription(string value);
 
-        internal override void ReportStatistics()
-        {
-            // nowt
-        }
+    internal override void ReportStatistics()
+    {
+        // nowt
     }
 }

@@ -1,8 +1,7 @@
-﻿namespace Tyke.Net.Symbols
+﻿namespace Tyke.Net.Symbols;
+
+internal interface ILinkable
 {
-    internal interface ILinkable
-    {
-        void ProposeProcedure(Process.ProcessBase procedure);
-        int LinkComplete();
-    }
+    void ProposeProcedure(Process.ProcessBase procedure);
+    int LinkComplete();
 }
