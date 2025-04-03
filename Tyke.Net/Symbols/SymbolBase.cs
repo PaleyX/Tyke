@@ -1,7 +1,6 @@
-﻿namespace Tyke.Net.Symbols
+﻿namespace Tyke.Net.Symbols;
+
+internal abstract class SymbolBase
 {
-    internal abstract class SymbolBase
-    {
-        internal string Name { get; set; }
-    }
+    internal string Name { get; set; }
 }

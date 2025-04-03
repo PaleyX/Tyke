@@ -1,29 +1,28 @@
-﻿namespace Tyke.Net.Process
+﻿namespace Tyke.Net.Process;
+
+internal class CommandInc() : CommandBase(CommandTypes.Inc)
 {
-    internal class CommandInc() : CommandBase(CommandTypes.Inc)
+    private Data.DatafieldBinary _field;
+
+    internal override void ParseCommand(Parser.Tokeniser stack)
     {
-        private Data.DatafieldBinary _field;
+        if (!stack.VerifyCount(2))
+            return;
 
-        internal override void ParseCommand(Parser.Tokeniser stack)
-        {
-            if (!stack.VerifyCount(2))
-                return;
+        stack.VerifyAndPop("inc");
 
-            stack.VerifyAndPop("inc");
+        // next must be numeric variable
+        var token = stack.Pop();
 
-            // next must be numeric variable
-            var token = stack.Pop();
+        _field = Symbols.SymbolTable.GetSymbol<Data.DatafieldBinary>(token);
+        if (_field == null)
+            return;
+    }
 
-            _field = Symbols.SymbolTable.GetSymbol<Data.DatafieldBinary>(token);
-            if (_field == null)
-                return;
-        }
+    internal override CommandBase Process()
+    {
+        _field.Increment();
 
-        internal override CommandBase Process()
-        {
-            _field.Increment();
-
-            return base.Process();
-        }
+        return base.Process();
     }
 }

@@ -1,7 +1,6 @@
-﻿namespace Tyke.Net.Sections
+﻿namespace Tyke.Net.Sections;
+
+internal interface ISectionBlock
 {
-    internal interface ISectionBlock
-    {
-        void ProcessBlockLine(string line);
-    }
+    void ProcessBlockLine(string line);
 }

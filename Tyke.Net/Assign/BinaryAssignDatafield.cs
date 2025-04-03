@@ -1,17 +1,16 @@
-﻿namespace Tyke.Net.Assign
+﻿namespace Tyke.Net.Assign;
+
+internal class BinaryAssignDatafield : BinaryAssignBase
 {
-    internal class BinaryAssignDatafield : BinaryAssignBase
+    private readonly Data.DatafieldBinary _datafield;
+
+    internal BinaryAssignDatafield(Data.DatafieldBinary datafield)
     {
-        private readonly Data.DatafieldBinary _datafield;
+        _datafield = datafield;
+    }
 
-        internal BinaryAssignDatafield(Data.DatafieldBinary datafield)
-        {
-            _datafield = datafield;
-        }
-
-        internal uint GetDWord()
-        {
-            return _datafield.GetDWord();
-        }
+    internal uint GetDWord()
+    {
+        return _datafield.GetDWord();
     }
 }

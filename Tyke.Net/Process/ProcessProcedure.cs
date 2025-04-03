@@ -1,10 +1,9 @@
-﻿namespace Tyke.Net.Process
+﻿namespace Tyke.Net.Process;
+
+internal class ProcessProcedure : ProcessBase
 {
-    internal class ProcessProcedure : ProcessBase
+    internal ProcessProcedure(string name)
     {
-        internal ProcessProcedure(string name)
-        {
-            Symbols.SymbolTable.AddSymbol(name, this);
-        }
+        Symbols.SymbolTable.AddSymbol(name, this);
     }
 }

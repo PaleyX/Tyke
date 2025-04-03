@@ -1,53 +1,52 @@
-﻿namespace Tyke.Net.Process
+﻿namespace Tyke.Net.Process;
+
+internal class CommandEndLoop() : CommandBase(CommandTypes.EndLoop)
 {
-    internal class CommandEndLoop() : CommandBase(CommandTypes.EndLoop)
+    private CommandBase _loopBack;
+
+    internal override void ParseCommand(Parser.Tokeniser stack)
     {
-        private CommandBase _loopBack;
+        bool   gotLoop = false;
+        bool   gotUntil = false;
 
-        internal override void ParseCommand(Parser.Tokeniser stack)
+        // just one word - endloop 
+        stack.VerifyAndPop("endloop");
+
+        // OK - is there a loop & untils 
+        CommandBase x;
+
+        while((x = Symbols.ProcessStack.Pop()) != null)
         {
-	        bool   gotLoop = false;
-	        bool   gotUntil = false;
+            if(x.CommandType == CommandTypes.Loop)
+            {
+                _loopBack = x.Next;	
+                gotLoop = true;
+                break;
+            }
+            else
+            if(x.CommandType == CommandTypes.Until)
+            {
+                (x as CommandBranchBase).Jump = Next;
 
-	        // just one word - endloop 
-	        stack.VerifyAndPop("endloop");
-
-	        // OK - is there a loop & untils 
-            CommandBase x;
-
-	        while((x = Symbols.ProcessStack.Pop()) != null)
-	        {
-		        if(x.CommandType == CommandTypes.Loop)
-		        {
-			        _loopBack = x.Next;	
-			        gotLoop = true;
-			        break;
-		        }
-		        else
-		        if(x.CommandType == CommandTypes.Until)
-		        {
-                    (x as CommandBranchBase).Jump = Next;
-
-			        //static_cast<CProcBranch*>(x) -> cpcJump = cpcNext;
-			        gotUntil = true;
-		        }
-		        else
-		        {
-			        Errors.Error.SyntaxError("Mismatched loop-endloop pair");
-			        return;
-		        }
-	        }
-
-	        if(!gotLoop)
-		        Errors.Error.SyntaxError("Mismatched loop-endloop pair");
-
-            if(!gotUntil)
-                Errors.Error.SyntaxError("No until clauses in loop..endloop");
+                //static_cast<CProcBranch*>(x) -> cpcJump = cpcNext;
+                gotUntil = true;
+            }
+            else
+            {
+                Errors.Error.SyntaxError("Mismatched loop-endloop pair");
+                return;
+            }
         }
 
-        internal override CommandBase Process()
-        {
-            return _loopBack;
-        }
+        if(!gotLoop)
+            Errors.Error.SyntaxError("Mismatched loop-endloop pair");
+
+        if(!gotUntil)
+            Errors.Error.SyntaxError("No until clauses in loop..endloop");
+    }
+
+    internal override CommandBase Process()
+    {
+        return _loopBack;
     }
 }

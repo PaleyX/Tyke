@@ -1,19 +1,18 @@
-﻿namespace Tyke.Net.Process
+﻿namespace Tyke.Net.Process;
+
+internal class CommandIf() : CommandBranchBase(CommandTypes.If)
 {
-    internal class CommandIf() : CommandBranchBase(CommandTypes.If)
+    internal override void ParseCommand(Parser.Tokeniser stack)
     {
-        internal override void ParseCommand(Parser.Tokeniser stack)
-        {
-            stack.VerifyAndPop("if");
+        stack.VerifyAndPop("if");
 
-            Symbols.ProcessStack.Push(this);
+        Symbols.ProcessStack.Push(this);
 
-            Expression = Expressions.ExpressionBase.GetExpression(stack);
-        }
+        Expression = Expressions.ExpressionBase.GetExpression(stack);
+    }
 
-        internal override CommandBase Process()
-        {
-            return Expression.Evaluate() ? Next : Jump;
-        }
+    internal override CommandBase Process()
+    {
+        return Expression.Evaluate() ? Next : Jump;
     }
 }

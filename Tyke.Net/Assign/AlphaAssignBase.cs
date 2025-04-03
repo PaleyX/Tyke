@@ -1,4 +1,3 @@
-﻿namespace Tyke.Net.Assign
-{
-    internal abstract class AlphaAssignBase;
-}
+﻿namespace Tyke.Net.Assign;
+
+internal abstract class AlphaAssignBase;

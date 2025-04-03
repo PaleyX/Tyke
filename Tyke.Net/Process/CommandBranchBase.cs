@@ -1,15 +1,14 @@
-﻿namespace Tyke.Net.Process
+﻿namespace Tyke.Net.Process;
+
+internal abstract class CommandBranchBase : CommandBase
 {
-    internal abstract class CommandBranchBase : CommandBase
+    protected Expressions.ExpressionBase Expression;
+
+
+    internal CommandBranchBase(CommandTypes commandType)
+        : base(commandType)
     {
-        protected Expressions.ExpressionBase Expression;
-
-
-        internal CommandBranchBase(CommandTypes commandType)
-            : base(commandType)
-        {
-        }
-
-        internal CommandBase Jump { get; set; }
     }
+
+    internal CommandBase Jump { get; set; }
 }

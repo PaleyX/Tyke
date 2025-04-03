@@ -1,70 +1,69 @@
 ﻿using System.Collections.Generic;
 
-namespace Tyke.Net.Process
+namespace Tyke.Net.Process;
+
+internal class CommandSwitch() : CommandBase(CommandTypes.Switch)
 {
-    internal class CommandSwitch() : CommandBase(CommandTypes.Switch)
+    private CommandCase _default;
+    private CommandBase _endSwitch;
+
+    private readonly List<CommandCase> _cases = [];
+
+    internal override CommandBase Process()
     {
-        private CommandCase _default;
-        private CommandBase _endSwitch;
+        if (_cases.Count == 0)
+            Errors.Error.ReportError("Empty case list on switch");
 
-        private readonly List<CommandCase> _cases = [];
-
-        internal override CommandBase Process()
+        // evaluate case expressions
+        foreach (CommandCase command in _cases)
         {
-            if (_cases.Count == 0)
-                Errors.Error.ReportError("Empty case list on switch");
-
-            // evaluate case expressions
-            foreach (CommandCase command in _cases)
-            {
-                if (command.Expression.Evaluate())
-                    return command.Next;
-            }
-
-            // no matching case - if default go to its nop else
-            // jump to endswitch
-            if (_default != null)
-            {
-                return _default.Next;
-            }
-
-            return _endSwitch;
+            if (command.Expression.Evaluate())
+                return command.Next;
         }
 
-        internal override void ParseCommand(Parser.Tokeniser stack)
+        // no matching case - if default go to its nop else
+        // jump to endswitch
+        if (_default != null)
         {
-            if (!stack.VerifyCount(1))
-                return;
-
-            stack.VerifyAndPop("switch");
-
-            Symbols.ProcessStack.Push(this);
+            return _default.Next;
         }
 
-        internal void CaseToEndSwitch(CommandEndSwitch es)
-        {
-            if (_cases.Count == 0)
-                Errors.Error.SyntaxError("No case commands");
+        return _endSwitch;
+    }
 
-            // case list
-            _cases.ForEach(c => c.Jump = es);
+    internal override void ParseCommand(Parser.Tokeniser stack)
+    {
+        if (!stack.VerifyCount(1))
+            return;
 
-            // default
-            if (_default != null)
-                _default.Jump = es;
+        stack.VerifyAndPop("switch");
 
-            // end switch
-            _endSwitch = es;
-        }
+        Symbols.ProcessStack.Push(this);
+    }
 
-        internal void AddCase(CommandCase command)
-        {
-            _cases.Add(command);
-        }
+    internal void CaseToEndSwitch(CommandEndSwitch es)
+    {
+        if (_cases.Count == 0)
+            Errors.Error.SyntaxError("No case commands");
 
-        internal void AddDefault(CommandCase command)
-        {
-            _default = command;
-        }
+        // case list
+        _cases.ForEach(c => c.Jump = es);
+
+        // default
+        if (_default != null)
+            _default.Jump = es;
+
+        // end switch
+        _endSwitch = es;
+    }
+
+    internal void AddCase(CommandCase command)
+    {
+        _cases.Add(command);
+    }
+
+    internal void AddDefault(CommandCase command)
+    {
+        _default = command;
     }
 }
