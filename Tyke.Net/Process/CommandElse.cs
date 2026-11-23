@@ -1,5 +1,6 @@
 ﻿namespace Tyke.Net.Process;
 
+[Command("else")]
 internal class CommandElse() : CommandBase(CommandTypes.Else)
 {
     internal override void ParseCommand(Parser.Tokeniser stack)

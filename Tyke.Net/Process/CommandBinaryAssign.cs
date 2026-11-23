@@ -21,8 +21,8 @@ internal class CommandBinaryAssign() : CommandBase(CommandTypes.BinaryAssign)
                 if (stack.Count < 2)
                     throw new ApplicationException("CommandBinaryAssign::Process (A)");
 
-                double dw1 = stack.Pop();
-                double dw2 = stack.Pop();
+                var dw1 = stack.Pop();
+                var dw2 = stack.Pop();
 
                 switch (assignOperator.Operator)
                 {
@@ -219,9 +219,6 @@ internal class CommandBinaryAssign() : CommandBase(CommandTypes.BinaryAssign)
         if (Parser.Tokeniser.IsMathOperator(c))
             return true;
 
-        if (c == '(' || c == ')')
-            return true;
-
-        return false;
+        return c is '(' or ')';
     }
 }

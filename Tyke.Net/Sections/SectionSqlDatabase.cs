@@ -4,6 +4,7 @@ using System.Diagnostics;
 
 namespace Tyke.Net.Sections;
 
+[Section("sqldatabase")]
 internal class SectionSqlDatabase : SectionBase
 {
     private string _connectionString;

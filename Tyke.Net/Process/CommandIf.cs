@@ -1,5 +1,6 @@
 ﻿namespace Tyke.Net.Process;
 
+[Command("if")]
 internal class CommandIf() : CommandBranchBase(CommandTypes.If)
 {
     internal override void ParseCommand(Parser.Tokeniser stack)

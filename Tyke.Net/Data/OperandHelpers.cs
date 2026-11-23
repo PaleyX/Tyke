@@ -34,16 +34,13 @@ internal static class OperandHelpers
             Errors.Error.SyntaxError();
             return null;
         }
-        else
+
+        return datafield switch
         {
-            if (datafield is DatafieldAlpha alpha)
-                return new OperandAlpha(alpha);
-
-            if (datafield is DatafieldBinary binary)
-                return new OperandBinary(binary);
-        }
-
-        throw new ApplicationException("OperandHelpers::AllocateOpFromToken");
+            DatafieldAlpha alpha => new OperandAlpha(alpha),
+            DatafieldBinary binary => new OperandBinary(binary),
+            _ => throw new ApplicationException("OperandHelpers::AllocateOpFromToken")
+        };
     }
 
     internal static bool Compatible(OperandBase operand, DatafieldBase datafield)

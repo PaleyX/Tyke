@@ -4,6 +4,7 @@ using System.Linq;
 
 namespace Tyke.Net.Sections;
 
+[Section("tokenizer")]
 internal class SectionTokenizer : SectionBase
 {
     private Data.DatafieldAlpha _datafield;

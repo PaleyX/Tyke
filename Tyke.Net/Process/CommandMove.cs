@@ -3,6 +3,7 @@ using System.Diagnostics;
 
 namespace Tyke.Net.Process;
 
+[Command("move")]
 internal class CommandMove() : CommandBase(CommandTypes.Move)
 {
     private Data.OperandBase _source;
@@ -15,7 +16,7 @@ internal class CommandMove() : CommandBase(CommandTypes.Move)
     {
         // 4 for standard or 8 for extended
         int count = stack.Count();
-        if (!(count == 4 || count == 8))
+        if (count is not (4 or 8))
         {
             Errors.Error.SyntaxError("Expected 4 or 8 tokens");
             return;

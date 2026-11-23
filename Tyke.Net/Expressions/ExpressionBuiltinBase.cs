@@ -26,16 +26,11 @@ internal abstract class ExpressionBuiltinBase : ExpressionBase
 
     protected void GetTestType(string token)
     {
-        switch (token)
+        TestType = token switch
         {
-            case "is":
-                TestType = TestTypes.Is;
-                break;
-            case "not":
-                TestType = TestTypes.Not;
-                break;
-            default:
-                throw new TykeRunTimeException("ExpressionBuiltinBase:ParseExpression");
-        }
+            "is" => TestTypes.Is,
+            "not" => TestTypes.Not,
+            _ => throw new TykeRunTimeException("ExpressionBuiltinBase:ParseExpression")
+        };
     }
 }

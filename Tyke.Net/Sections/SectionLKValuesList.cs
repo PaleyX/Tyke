@@ -3,6 +3,7 @@ using System.Collections.Generic;
 
 namespace Tyke.Net.Sections;
 
+[Section("listknife values list")]
 internal class SectionLkValuesList : SectionLkValuesBase, ISectionBlock
 {
     private readonly Dictionary<string, string> _values = new();

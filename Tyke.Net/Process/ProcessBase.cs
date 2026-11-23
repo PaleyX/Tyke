@@ -22,99 +22,121 @@ internal abstract class ProcessBase : Symbols.SymbolBase
 
             var stack = new Parser.Tokeniser(line);
 
-            CommandBase command = null;
-            string name = stack.Peek();
-                
-            switch (name)
+            var name = stack.Peek();
+            var command = Tools.AttributeTools.GetCommand(name);
+
+            if (command is null)
             {
-                case "loop":
-                    command = AddCommand<CommandLoop>();
-                    break;
-                case "endloop":
-                    command = AddCommandWithNop<CommandEndLoop>();
-                    break;
-                case "inc":
-                    command = AddCommand<CommandInc>();
-                    break;
-                case "display":
-                    command = AddCommand<CommandDisplay>();
-                    break;
-                case "until":
-                    command = AddCommand<CommandUntil>();
-                    break;
-                case "if":
-                    command = AddCommand<CommandIf>();
-                    break;
-                case "endif":
-                    command = AddCommand<CommandEndif>();
-                    break;
-                case "else":
-                    command = AddCommandWithNop<CommandElse>();
-                    break;
-                case "ifnot":
-                    command = AddCommand<CommandIfNot>();
-                    break;
-                case "move": 
-                    command = AddCommand<CommandMove>();
-                    break;
-                case "open":
-                    command = AddCommand<CommandOpen>();
-                    break;
-                case "close":
-                    command = AddCommand<CommandClose>();
-                    break;
-                case "read":
-                    command = AddCommand<CommandRead>();
-                    break;
-                case "write":
-                    command = AddCommand<CommandWrite>();
-                    break;
-                case "cast":
-                    command = AddCommand<CommandCast>();
-                    break;
-                case "switch":
-                    command = AddCommand<CommandSwitch>();
-                    break;
-                case "endswitch":
-                    command = AddCommand<CommandEndSwitch>();
-                    break;
-                case "case":
-                    command = AddCommandWithNop<CommandCase>();
-                    break;
-                case "default":
-                    command = AddCommand<CommandCase>();
-                    break;
-                case "modify":
-                    command = AddCommand<CommandModify>();
-                    break;
-                case "put":
-                    command = AddCommand<CommandPut>();
-                    break;
-                case "call":
-                    command = AddCommand<CommandCall>();
-                    break;
-                case "get":
-                    command = AddCommand<CommandGet>();
-                    break;
-                case "do":
-                    command = AddCommand<CommandDo>();
-                    break;
-                default:
-                    if (Symbols.SymbolTable.GetSymbol<Data.DatafieldBase>(name) != null)
-                    {
-                        command = ParseLeadingDatafieldStatement(stack);
-                    }
-                    else
-                    {
-                        Errors.Error.SyntaxError("Unknown process section command: {0}", line);
-                    }
-                    break;
+                if (Symbols.SymbolTable.GetSymbol<Data.DatafieldBase>(name) != null)
+                {
+                    command = ParseLeadingDatafieldStatement(stack);
+                }
             }
+
+
+            //switch (name)
+            //{
+            //    //case "loop":
+            //    //    command = AddCommand<CommandLoop>();
+            //    //    break;
+            //    //case "endloop":
+            //    //    command = AddCommandWithNop<CommandEndLoop>();
+            //    //    break;
+            //    //case "inc":
+            //    //    command = AddCommand<CommandInc>();
+            //    //    break;
+            //    //case "display":
+            //    //    command = AddCommand<CommandDisplay>();
+            //    //    break;
+            //    //case "until":
+            //    //    command = AddCommand<CommandUntil>();
+            //    //    break;
+            //    //case "if":
+            //    //    command = AddCommand<CommandIf>();
+            //    //    break;
+            //    //case "endif":
+            //    //    command = AddCommand<CommandEndif>();
+            //    //    break;
+            //    //case "else":
+            //    //    command = AddCommandWithNop<CommandElse>();
+            //    //    break;
+            //    //case "ifnot":
+            //    //    command = AddCommand<CommandIfNot>();
+            //    //    break;
+            //    //case "move": 
+            //    //    command = AddCommand<CommandMove>();
+            //    //    break;
+            //    //case "open":
+            //    //    command = AddCommand<CommandOpen>();
+            //    //    break;
+            //    //case "close":
+            //    //    command = AddCommand<CommandClose>();
+            //    //    break;
+            //    //case "read":
+            //    //    command = AddCommand<CommandRead>();
+            //    //    break;
+            //    //case "write":
+            //    //    command = AddCommand<CommandWrite>();
+            //    //    break;
+            //    //case "cast":
+            //    //    command = AddCommand<CommandCast>();
+            //    //    break;
+            //    //case "switch":
+            //    //    command = AddCommand<CommandSwitch>();
+            //    //    break;
+            //    //case "endswitch":
+            //    //    command = AddCommand<CommandEndSwitch>();
+            //    //    break;
+            //    //case "case":
+            //    //    command = AddCommandWithNop<CommandCase>();
+            //    //    break;
+            //    //case "default":
+            //    //    command = AddCommand<CommandCase>();
+            //    //    break;
+            //    //case "modify":
+            //    //    command = AddCommand<CommandModify>();
+            //    //    break;
+            //    //case "put":
+            //    //    command = AddCommand<CommandPut>();
+            //    //    break;
+            //    //case "call":
+            //    //    command = AddCommand<CommandCall>();
+            //    //    break;
+            //    //case "get":
+            //    //    command = AddCommand<CommandGet>();
+            //    //    break;
+            //    //case "do":
+            //    //    command = AddCommand<CommandDo>();
+            //    //    break;
+            //    default:
+            //        if (Symbols.SymbolTable.GetSymbol<Data.DatafieldBase>(name) != null)
+            //        {
+            //            command = ParseLeadingDatafieldStatement(stack);
+            //        }
+            //        else
+            //        {
+            //            Errors.Error.SyntaxError("Unknown process section command: {0}", line);
+            //        }
+            //        break;
+            //}
 
             if (command != null)
             {
+                if (command is CommandElse or CommandEndLoop or CommandCase)
+                {
+                    AddCommandWithNop(command);
+                }
+                else
+                {
+                    AddCommand(command);
+                }
+
                 _commands.Add(command);
                 command.ParseCommand(stack);
+            }
+            else
+            { 
+                Errors.Error.SyntaxError("Unknown process section command: {0}", line);
             }
         }
     }
@@ -137,15 +159,14 @@ internal abstract class ProcessBase : Symbols.SymbolBase
         var datafield = Symbols.SymbolTable.GetSymbol<Data.DatafieldBase>(stack.Peek(), false);
         Debug.Assert(datafield != null);
 
-        switch (datafield.DatafieldType)
+        CommandBase command = datafield.DatafieldType switch
         {
-            case Data.DatafieldBase.DatafieldTypes.Alpha:
-                return AddCommand<CommandAlphaAssign>(); 
-            case Data.DatafieldBase.DatafieldTypes.Binary:
-                return AddCommand<CommandBinaryAssign>();
-            default:
-                throw new ApplicationException("ParseLeadingDatafieldStatement");
-        }
+            Data.DatafieldBase.DatafieldTypes.Alpha => new CommandAlphaAssign(),
+            Data.DatafieldBase.DatafieldTypes.Binary => new CommandBinaryAssign(),
+            _ => throw new ApplicationException("ParseLeadingDatafieldStatement")
+        };
+
+        return command;
     }
 
     internal void Run()
@@ -161,24 +182,18 @@ internal abstract class ProcessBase : Symbols.SymbolBase
         }
     }
 
-    private T AddCommand<T>() where T: CommandBase, new()
+    private void AddCommand(CommandBase command)
     {
-        T command = new T();
-
         _first ??= command;
 
-        if (_last != null)
-            _last.Next = command;
-        _last = command;
+        _last?.Next = command;
 
-        return command;
+        _last = command;
     }
 
-    private T AddCommandWithNop<T>() where T : CommandBase, new()
+    private void AddCommandWithNop(CommandBase command)
     {
-        T command = AddCommand<T>();
-        AddCommand<CommandNop>();
-
-        return command;
+        AddCommand(command);
+        AddCommand(new CommandNop());
     }
 }

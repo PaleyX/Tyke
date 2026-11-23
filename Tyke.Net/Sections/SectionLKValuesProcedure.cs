@@ -1,5 +1,6 @@
 ﻿namespace Tyke.Net.Sections;
 
+[Section("listknife values procedure")]
 internal class SectionLkValuesProcedure : SectionLkValuesBase, Symbols.ILinkable
 {
     private string _procedureName;
@@ -26,7 +27,7 @@ internal class SectionLkValuesProcedure : SectionLkValuesBase, Symbols.ILinkable
         // space fill description
         _description.Set(string.Empty);
 
-        // set value fielf to value
+        // set value field to value
         _value.Set(value);
 
         // call procedure

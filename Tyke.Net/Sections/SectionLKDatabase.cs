@@ -7,6 +7,7 @@ using System.Xml.Linq;
 
 namespace Tyke.Net.Sections;
 
+[Section("listknife database")]
 internal class SectionLkDatabase : SectionBase
 {
     private string _directory;
@@ -384,9 +385,27 @@ internal class SectionLkDatabase : SectionBase
         _transWriter.Flush();
         _transWriter.Close();
 
+        //TODO: FileLength propbably needs some work
+        // try to find the original source to see how it should be calculated
+        // if not - round up until it is divisible by 8
+        var infoXml = new XDocument(
+            new XElement("Info",
+                new XElement("BitmapLength", BitmapLength),
+                new XElement("BitmapVersion", _bitmapVersion),
+                new XElement("DatabaseDescription", _description),
+                new XElement("DatabaseVersion", _databaseVersion),
+                new XElement("DataFile", Path.GetFileName(DataPathname)),
+                new XElement("FileLength", (_tempUrn / 8) + 100), 
+                new XElement("FileSplit", _fileSplit),
+                new XElement("MaxPermUrn", _maxPermUrn),
+                new XElement("MaxTempUrn", _tempUrn),
+                new XElement("PermTemp", "PermTemp.dat"),
+                new XElement("TempPerm", "TempPerm.dat")));
+
         // write out xml
-        attributesXml.Save(Path.Combine(_directory, "attributes.xml"));
-        valuesXml.Save(Path.Combine(_directory, "values.xml"));
+        attributesXml.Save(Path.Combine(_directory, "attributes.lki"));
+        valuesXml.Save(Path.Combine(_directory, "values.lki"));
+        infoXml.Save(Path.Combine(_directory, "info.lki"));
 
         // Translation files
         using (var translators = new ListKnife.Translators(TransPathname, _directory))
@@ -420,7 +439,7 @@ internal class SectionLkDatabase : SectionBase
             new XAttribute("tally", token.Tally),
             new XAttribute("start", _start),
             new XAttribute("number", token.BufferTally),
-            new XAttribute("offset", token.StartOffset));
+            new XAttribute("offset", token.StartOffset + 1)); //TODO - +1?
 
         _start += token.BufferTally;
 

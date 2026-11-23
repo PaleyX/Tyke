@@ -22,8 +22,7 @@ internal class OperandList<T> where T: OperandBase
 
     private void AddElement(string token)
     {
-        T x = OperandHelpers.AllocateOpFromToken(token) as T;
-        if (x == null)
+        if (OperandHelpers.AllocateOpFromToken(token) is not T x)
             Errors.Error.SyntaxError(Errors.StdErrors.IncompatibleOperands);
         else
             _list.Add(x);

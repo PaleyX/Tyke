@@ -1,5 +1,8 @@
-﻿namespace Tyke.Net.Sections;
+﻿using Tyke.Net.Data;
 
+namespace Tyke.Net.Sections;
+
+[Section("listknife attribute")]
 internal class SectionLkAttribute: SectionBase
 {
     private string _description;
@@ -34,13 +37,12 @@ internal class SectionLkAttribute: SectionBase
     {
         get
         {
-            if (_field is Data.DatafieldAlpha)
-                return "A";
-
-            if (_field is Data.DatafieldBinary)
-                return "N";
-
-            throw new TykeRunTimeException("Unknown field type", Name);
+            return _field switch
+            {
+                DatafieldAlpha => "A",
+                DatafieldBinary => "N",
+                _ => throw new TykeRunTimeException("Unknown field type", Name)
+            };
         }
     }
 

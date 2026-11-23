@@ -1,5 +1,5 @@
-﻿using BenchmarkDotNet.Attributes;
-using BenchmarkDotNet.Running;
+﻿using System.Runtime.InteropServices;
+using BenchmarkDotNet.Attributes;
 
 namespace PerformanceTests
 {
@@ -17,7 +17,6 @@ namespace PerformanceTests
             value++;
             var bytes = BitConverter.GetBytes(value);
             Buffer.BlockCopy(bytes, 0, _buffer, Offset, 4);
-
         }
 
         [Benchmark]
@@ -44,13 +43,14 @@ namespace PerformanceTests
                 }
             }
         }
-    }
 
-    internal class Program
-    {
-        public static void Main(string[] args)
+        [Benchmark]
+        public void Safe()
         {
-            var summary = BenchmarkRunner.Run<DataBufferIncrement>();
+            var span = _buffer.AsSpan(Offset, 4);
+            var value = MemoryMarshal.Cast<byte, uint>(span)[0];
+            value++;
+            MemoryMarshal.Cast<uint, byte>(MemoryMarshal.CreateSpan(ref value, 1)).CopyTo(span);
         }
     }
 }

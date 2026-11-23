@@ -1,5 +1,6 @@
 ﻿namespace Tyke.Net.Process;
 
+[Command("open")]
 internal class CommandOpen() : CommandBase(CommandTypes.Open)
 {
     private Sections.SectionBase _section;

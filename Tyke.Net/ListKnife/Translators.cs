@@ -23,20 +23,17 @@ internal class Translators : IDisposable
         {
             using FileStream istream = new(TransPathname, FileMode.Open, FileAccess.Read, FileShare.None),
                 ostream = new(pathname, FileMode.CreateNew, FileAccess.Write, FileShare.None);
-            using (var reader = new BinaryReader(istream))
+            using var reader = new BinaryReader(istream);
+            using var writer = new BinaryWriter(ostream);
+
+            int temp = 0;
+
+            writer.Write(temp); // blank ??? Why ???
+
+            // TODO: isn't this just copying the file? 
+            for (int i = 0; i < reader.BaseStream.Length / sizeof(Int32); ++i)
             {
-                using (var writer = new BinaryWriter(ostream))
-                {
-                    int temp = 0;
-
-                    writer.Write(temp); // blank ??? Why ???
-
-                    // TODO: isn't this just copying the file? 
-                    for (int i = 0; i < reader.BaseStream.Length / sizeof(Int32); ++i)
-                    {
-                        writer.Write(reader.ReadInt32());
-                    }
-                }
+                writer.Write(reader.ReadInt32());
             }
         }
         catch (Exception e)
@@ -66,14 +63,20 @@ internal class Translators : IDisposable
                         for (int i = 0; i < reader.BaseStream.Length / sizeof(Int32); ++i)
                         {
                             var temp = reader.ReadInt32();
+
                             ++read;
 
                             // A test
                             if (temp > max)
                                 max = temp;
 
-                            long seek = writer.Seek(temp * sizeof(Int32), SeekOrigin.Begin);
-                            Debug.Assert(seek == (temp * sizeof(Int32)));
+                            // so it can handle 64 bit seeks - rest of code reall should do the same
+                            // because the tranlators won't work otherwise - the urns should be stored
+                            // as 64 bit not 32 - will take up room though
+                            long seekPos = (long)temp * (long)sizeof(Int32);
+                            long seek = writer.BaseStream.Seek(seekPos, SeekOrigin.Begin);
+                            //long seek = writer.Seek(temp * sizeof(Int32), SeekOrigin.Begin);
+                            Debug.Assert(seek == seekPos);
                             writer.Write(++urn);
                         }
 

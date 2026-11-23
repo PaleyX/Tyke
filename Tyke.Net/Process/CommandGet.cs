@@ -1,5 +1,6 @@
 ﻿namespace Tyke.Net.Process;
 
+[Command("get")]
 internal class CommandGet() : CommandBase(CommandTypes.Get)
 {
     private Sections.SectionBase _section;

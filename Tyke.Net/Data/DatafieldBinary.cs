@@ -129,7 +129,7 @@ internal class DatafieldBinary : DatafieldBase
                 Area.Insert(ushort.MaxValue, Offset);
                 break;
             default:
-                throw new TykeRunTimeException("Uknown length in SetMax()");
+                throw new TykeRunTimeException("Unknown length in SetMax()");
         }
     }
 

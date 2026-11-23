@@ -1,5 +1,6 @@
 ﻿namespace Tyke.Net.Process;
 
+[Command("endif")]
 internal class CommandEndif() : CommandBase(CommandTypes.Endif)
 {
     internal override void ParseCommand(Parser.Tokeniser stack)

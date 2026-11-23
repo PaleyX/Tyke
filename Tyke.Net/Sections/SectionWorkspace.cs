@@ -3,6 +3,7 @@
 
 namespace Tyke.Net.Sections;
 
+[Section("workspace")]
 internal class SectionWorkspace : SectionBufferBase
 {
     internal SectionWorkspace()

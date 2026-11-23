@@ -83,44 +83,48 @@ internal static class Tyke
     private static void ParseSection(string line)
     {
         // normal sections
-        Sections.SectionBase section = null;
-
-        switch (line)
+        var section = Tools.AttributeTools.GetSection(line);
+        if (section is null)
         {
-            case "workspace":
-                section = new Sections.SectionWorkspace();
-                break;
-            case "file":
-                section = new Sections.SectionFile();
-                break;
-            case "sqldatabase":
-                section = new Sections.SectionSqlDatabase();
-                break;
-            case "sqlreader":
-                section = new Sections.SectionSqlReader();
-                break;
-            case "listknife database":
-                section = new Sections.SectionLkDatabase();
-                break;
-            case "listknife attribute":
-                section = new Sections.SectionLkAttribute();
-                break;
-            case "listknife filter":
-                section = new Sections.SectionLkFilter();
-                break;
-            case "listknife values list":
-                section = new Sections.SectionLkValuesList();
-                break;
-            case "listknife values procedure":
-                section = new Sections.SectionLkValuesProcedure();
-                break;
-            case "tokenizer":
-                section = new Sections.SectionTokenizer();
-                break;
-            default:
-                Errors.Error.ReportError("Unknown section header: " + line);
-                break;
+            Errors.Error.ReportError("Unknown section header: " + line);
         }
+
+        //switch (line)
+        //{
+        //    case "workspace":
+        //        section = new Sections.SectionWorkspace();
+        //        break;
+        //    case "file":
+        //        section = new Sections.SectionFile();
+        //        break;
+        //    case "sqldatabase":
+        //        section = new Sections.SectionSqlDatabase();
+        //        break;
+        //    case "sqlreader":
+        //        section = new Sections.SectionSqlReader();
+        //        break;
+        //    case "listknife database":
+        //        section = new Sections.SectionLkDatabase();
+        //        break;
+        //    case "listknife attribute":
+        //        section = new Sections.SectionLkAttribute();
+        //        break;
+        //    case "listknife filter":
+        //        section = new Sections.SectionLkFilter();
+        //        break;
+        //    case "listknife values list":
+        //        section = new Sections.SectionLkValuesList();
+        //        break;
+        //    case "listknife values procedure":
+        //        section = new Sections.SectionLkValuesProcedure();
+        //        break;
+        //    case "tokenizer":
+        //        section = new Sections.SectionTokenizer();
+        //        break;
+        //    default:
+        //        Errors.Error.ReportError("Unknown section header: " + line);
+        //        break;
+        //}
 
         if (section != null)
         {
