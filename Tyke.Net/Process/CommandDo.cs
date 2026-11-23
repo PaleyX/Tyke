@@ -1,5 +1,6 @@
 ﻿namespace Tyke.Net.Process;
 
+[Command("do")]
 internal class CommandDo() : CommandBase(CommandTypes.Do)
 {
     private Sections.SectionBase _section;

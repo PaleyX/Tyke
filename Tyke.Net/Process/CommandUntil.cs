@@ -1,5 +1,6 @@
 ﻿namespace Tyke.Net.Process;
 
+[Command("until")]
 internal class CommandUntil() : CommandBranchBase(CommandTypes.Until)
 {
     internal override void ParseCommand(Parser.Tokeniser stack)

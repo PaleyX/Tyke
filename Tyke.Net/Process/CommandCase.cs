@@ -1,5 +1,7 @@
 ﻿namespace Tyke.Net.Process;
 
+[Command("case")]
+[Command("default")]
 internal class CommandCase() : CommandBranchBase(CommandTypes.Case)
 {
     internal override void ParseCommand(Parser.Tokeniser stack)

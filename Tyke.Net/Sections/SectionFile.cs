@@ -4,6 +4,7 @@ using System.IO;
 
 namespace Tyke.Net.Sections;
 
+[Section("file")]
 internal class SectionFile : SectionBufferBase
 {
     private Stream _stream;

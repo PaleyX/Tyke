@@ -1,5 +1,6 @@
 ﻿namespace Tyke.Net.Process;
 
+[Command("close")]
 internal class CommandClose() : CommandBase(CommandTypes.Close)
 {
     private Sections.SectionBase _section;

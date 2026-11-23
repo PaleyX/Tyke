@@ -1,5 +1,6 @@
 ﻿namespace Tyke.Net.Process;
 
+[Command("put")]
 internal class CommandPut() : CommandBase(CommandTypes.Put)
 {
     private Sections.SectionBase _section;

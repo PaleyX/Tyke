@@ -1,5 +1,6 @@
 ﻿namespace Tyke.Net.Process;
 
+[Command("loop")]
 internal class CommandLoop() : CommandBase(CommandTypes.Loop)
 {
     internal override void ParseCommand(Parser.Tokeniser stack)

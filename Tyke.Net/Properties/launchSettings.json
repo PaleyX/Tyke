@@ -2,7 +2,7 @@
   "profiles": {
     "Tyke.Net": {
       "commandName": "Project",
-      "commandLineArgs": "c:\\tyke\\test.txt"
+      "commandLineArgs": "c:\\databases\\test\\tyke.cf"
     }
   }
 }

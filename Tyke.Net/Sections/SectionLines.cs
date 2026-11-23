@@ -12,7 +12,7 @@ internal class SectionLines
     internal SectionLines(SectionBase section, params SectionLine[] lines)
     {
         _section = section;
-        _lines = new List<SectionLine>(lines);
+        _lines = [.. lines];
     }
 
     internal void Parse()
@@ -71,7 +71,7 @@ internal class SectionLines
 
     private void ParseBlock()
     {
-        ISectionBlock block = _section as ISectionBlock;
+        var block = _section as ISectionBlock;
 
         if (block == null)
         {
@@ -81,7 +81,7 @@ internal class SectionLines
 
         while (true)
         {
-            string line = Parser.TykeFile.GetLine();
+            var line = Parser.TykeFile.GetLine();
 
             if (line.ToLower() == "end")
                 break;

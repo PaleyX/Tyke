@@ -3,7 +3,6 @@ using System.Text;
 using System.Diagnostics;
 using System.IO;
 using System.Numerics;
-using System.Runtime.CompilerServices;
 
 namespace Tyke.Net.Data;
 
@@ -34,22 +33,27 @@ internal class DataBuffer
 
     internal int AreaLength => _areaLength;
 
+    //internal void FillArea(byte value = 32)
+    //{
+    //    if (value == 32)
+    //    {
+    //        var block = BlockCache.GetBlock(AreaLength);
+    //        Buffer.BlockCopy(block, 0, _buffer, 0, AreaLength);
+    //    }
+    //    else
+    //    {
+    //        for (var i = 0; i < _areaLength; ++i)
+    //        {
+    //            _buffer[i] = value;
+    //        }
+    //    }
+    //}
+
     internal void FillArea(byte value = 32)
     {
-        if (value == 32)
-        {
-            var block = BlockCache.GetBlock(AreaLength);
-            Buffer.BlockCopy(block, 0, _buffer, 0, AreaLength);
-        }
-        else
-        {
-            for (var i = 0; i < _areaLength; ++i)
-            {
-                _buffer[i] = value;
-            }
-        }
+        Array.Fill(_buffer, value);
     }
-
+    
     internal void Insert(byte[] bytes, int offset, int length)
     {
         throw new NotImplementedException();
@@ -58,9 +62,10 @@ internal class DataBuffer
     internal void Insert(string text, int offset, int length)
     {
         // initialise with spaces 
-        var block = BlockCache.GetBlock(length);
-        Debug.Assert(block.Length == length);
-        Buffer.BlockCopy(block, 0, _buffer, offset, length);
+        //var block = BlockCache.GetBlock(length);
+        //Debug.Assert(block.Length == length);
+        //Buffer.BlockCopy(block, 0, _buffer, offset, length);
+        Array.Fill(_buffer, (byte)32, offset, length);
 
         // get ascii
         var bytes = Encoding.ASCII.GetBytes(text);

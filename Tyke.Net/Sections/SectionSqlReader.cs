@@ -7,6 +7,7 @@ using System.Diagnostics;
 
 namespace Tyke.Net.Sections;
 
+[Section("sqlreader")]
 internal class SectionSqlReader : SectionBase, ISectionBlock
 {
     private SectionSqlDatabase _database;

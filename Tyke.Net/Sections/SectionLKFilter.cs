@@ -4,6 +4,7 @@ using System.Diagnostics;
 
 namespace Tyke.Net.Sections;
 
+[Section("listknife filter")]
 internal class SectionLkFilter : SectionBase, ISectionBlock
 {
     private string _description;

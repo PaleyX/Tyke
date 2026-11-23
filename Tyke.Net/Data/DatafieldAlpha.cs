@@ -57,7 +57,7 @@ internal class DatafieldAlpha : DatafieldBase
 
         if (Tools.StringTools.CanConvert<uint>(source))
         {
-            uint value = Tools.StringTools.Convert<uint>(ToString(), false);
+            var value = Tools.StringTools.Convert<uint>(ToString(), false);
             x.Set(value);
         }
         else

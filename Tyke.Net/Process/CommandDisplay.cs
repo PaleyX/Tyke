@@ -4,6 +4,7 @@ using System.Text;
 
 namespace Tyke.Net.Process;
 
+[Command("display")]
 internal class CommandDisplay() : CommandBase(CommandTypes.Display)
 {
     private readonly List<Misc.DisplayItemBase> _items = [];

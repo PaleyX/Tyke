@@ -1,13 +1,14 @@
 ﻿namespace Tyke.Net.Process;
 
+[Command("endloop")]
 internal class CommandEndLoop() : CommandBase(CommandTypes.EndLoop)
 {
     private CommandBase _loopBack;
 
     internal override void ParseCommand(Parser.Tokeniser stack)
     {
-        bool   gotLoop = false;
-        bool   gotUntil = false;
+        bool gotLoop = false;
+        bool gotUntil = false;
 
         // just one word - endloop 
         stack.VerifyAndPop("endloop");

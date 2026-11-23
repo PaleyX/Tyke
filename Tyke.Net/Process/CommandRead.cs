@@ -1,5 +1,6 @@
 ﻿namespace Tyke.Net.Process;
 
+[Command("read")]
 internal class CommandRead() : CommandBase(CommandTypes.Read)
 {
     private Sections.SectionBase _section;

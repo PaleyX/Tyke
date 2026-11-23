@@ -2,6 +2,7 @@
 
 namespace Tyke.Net.Process;
 
+[Command("switch")]
 internal class CommandSwitch() : CommandBase(CommandTypes.Switch)
 {
     private CommandCase _default;

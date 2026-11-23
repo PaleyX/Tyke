@@ -82,7 +82,7 @@ internal static class TykeFile
                 {
                     if(!inQuote)
                     {
-                        line = line.Substring(0, i);
+                        line = line[..i];
                         break;
                     }
                 }

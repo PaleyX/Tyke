@@ -1,5 +1,6 @@
 ﻿namespace Tyke.Net.Process;
 
+[Command("write")]
 internal class CommandWrite() : CommandBase(CommandTypes.Write)
 {
     private Sections.SectionBase _section;

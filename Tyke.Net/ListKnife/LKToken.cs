@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Buffers;
 using System.Collections.Generic;
 using System.IO;
 
@@ -74,7 +75,7 @@ internal class LkToken
             // Buffer
             byte[] buffer = reader.ReadBytes(length);
             if (buffer.Length != length)
-                throw new ApplicationException("Bad read apending data");
+                throw new ApplicationException("Bad read appending data");
             writer.Write(buffer);
         }
     }
@@ -91,30 +92,38 @@ internal class LkToken
         byte[] buffer;
 
         // compression
-        byte[] tempBuffer = new byte[_database.BitmapLength * Tmpbufscale];
+        //byte[] tempBuffer = new byte[_database.BitmapLength * Tmpbufscale];
+        var tempBuffer = ArrayPool<byte>.Shared.Rent(_database.BitmapLength * Tmpbufscale);
 
-        int compressionLength = CompressIt(_buffer.Buffer, tempBuffer);
-
-        // how did it compress? Which are we using
-        if (compressionLength <= _database.BitmapLength - 50)
+        try
         {
-            writeLength = compressionLength;
-            buffer = tempBuffer;
+            int compressionLength = CompressIt(_buffer.Buffer, tempBuffer);
+
+            // how did it compress? Which are we using
+            if (compressionLength <= _database.BitmapLength - 50)
+            {
+                writeLength = compressionLength;
+                buffer = tempBuffer;
+            }
+            else
+            {
+                writeLength = _database.BitmapLength;
+                buffer = _buffer.Buffer;
+            }
+
+            // bitmap header
+            _database.TempWriter.Write((int)1);
+            _database.TempWriter.Write((int)writeLength);
+            _database.TempWriter.Write((int)_buffer.StartUrn);
+            _database.TempWriter.Write((int)_buffer.EndUrn);
+            _database.TempWriter.Write((int)_database.BitmapLength);
+
+            _database.TempWriter.Write(buffer, 0, writeLength);
         }
-        else
+        finally
         {
-            writeLength = _database.BitmapLength;
-            buffer = _buffer.Buffer;
+            ArrayPool<byte>.Shared.Return(tempBuffer);
         }
-
-        // bitmap header
-        _database.TempWriter.Write((int)1);
-        _database.TempWriter.Write((int)writeLength);
-        _database.TempWriter.Write((int)_buffer.StartUrn);
-        _database.TempWriter.Write((int)_buffer.EndUrn);
-        _database.TempWriter.Write((int)_database.BitmapLength);
-
-        _database.TempWriter.Write(buffer, 0, writeLength);
     }
 
     internal void ForceDump()

@@ -20,15 +20,12 @@ internal class ExpressionIndicator : ExpressionBase
 
     internal override bool Evaluate()
     {
-        switch (_indicatorType)
+        return _indicatorType switch
         {
-            case IndicatorTypes.Eof:
-                return Indicators.IsEof;
-            case IndicatorTypes.Empty:
-                return Indicators.IsEmpty;
-            default:
-                throw new ApplicationException("Unknown indicator found");
-        }
+            IndicatorTypes.Eof => Indicators.IsEof,
+            IndicatorTypes.Empty => Indicators.IsEmpty,
+            _ => throw new ApplicationException("Unknown indicator found")
+        };
     }
 
     internal sealed override void ParseExpression(Parser.Tokeniser stack)

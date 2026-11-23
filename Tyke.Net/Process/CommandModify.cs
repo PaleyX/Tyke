@@ -1,5 +1,6 @@
 ﻿namespace Tyke.Net.Process;
 
+[Command("modify")]
 internal class CommandModify() : CommandBase(CommandTypes.Modify)
 {
     private Data.DatafieldAlpha _datafield;
