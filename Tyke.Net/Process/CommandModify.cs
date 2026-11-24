@@ -4,7 +4,7 @@ namespace Tyke.Net.Process;
 
 [UsedImplicitly]
 [Command("modify")]
-internal class CommandModify() : CommandBase(CommandTypes.Modify)
+internal class CommandModify : CommandBase
 {
     private Data.DatafieldAlpha _datafield;
     private Misc.StringModifier _modifier;

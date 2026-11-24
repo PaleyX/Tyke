@@ -5,7 +5,7 @@ namespace Tyke.Net.Process;
 
 [UsedImplicitly]
 [Command("put")]
-internal class CommandPut() : CommandBase(CommandTypes.Put)
+internal class CommandPut : CommandBase
 {
     private IActionPut _putable;
 

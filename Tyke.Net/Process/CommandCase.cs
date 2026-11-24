@@ -5,7 +5,7 @@ namespace Tyke.Net.Process;
 [UsedImplicitly]
 [Command("case")]
 [Command("default")]
-internal class CommandCase() : CommandBranchBase(CommandTypes.Case)
+internal class CommandCase : CommandBranchBase
 {
     internal override void ParseCommand(Parser.Tokeniser stack)
     {
@@ -33,7 +33,7 @@ internal class CommandCase() : CommandBranchBase(CommandTypes.Case)
 
         // top of stack must be a switch
         var x = Symbols.ProcessStack.Peek();
-        if (x is not { CommandType: CommandTypes.Switch })
+        if (x is not CommandSwitch @switch )
         {
             Errors.Error.SyntaxError("No switch command found");
             return;
@@ -43,11 +43,11 @@ internal class CommandCase() : CommandBranchBase(CommandTypes.Case)
         // if 'default' make default
         if (isDefault)
         {
-            (x as CommandSwitch).AddDefault(this);
+            @switch.AddDefault(this);
         }
         else
         {
-            (x as CommandSwitch).AddCase(this);
+            @switch.AddCase(this);
         }
     }
 

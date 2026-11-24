@@ -5,7 +5,7 @@ namespace Tyke.Net.Process;
 
 [UsedImplicitly]
 [Command("get")]
-internal class CommandGet() : CommandBase(CommandTypes.Get)
+internal class CommandGet : CommandBase
 {
     private IActionGet _getable;
 

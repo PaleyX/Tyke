@@ -6,7 +6,7 @@ namespace Tyke.Net.Process;
 
 [UsedImplicitly]
 [Command("do")]
-internal class CommandDo() : CommandBase(CommandTypes.Do)
+internal class CommandDo : CommandBase
 {
     private IActionDo _doable;
 

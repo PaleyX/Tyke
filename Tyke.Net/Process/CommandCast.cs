@@ -4,7 +4,7 @@ namespace Tyke.Net.Process;
 
 [UsedImplicitly]
 [Command("cast")]
-internal class CommandCast() : CommandBase(CommandTypes.Cast)
+internal class CommandCast : CommandBase
 {
     private Data.DatafieldBase _source;
     private Data.DatafieldBase _object;

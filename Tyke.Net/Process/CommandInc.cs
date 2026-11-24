@@ -4,7 +4,7 @@ namespace Tyke.Net.Process;
 
 [UsedImplicitly]
 [Command("inc")]
-internal class CommandInc() : CommandBase(CommandTypes.Inc)
+internal class CommandInc : CommandBase
 {
     private Data.DatafieldBinary _field;
 

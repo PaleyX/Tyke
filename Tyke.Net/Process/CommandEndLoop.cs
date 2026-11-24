@@ -4,35 +4,32 @@ namespace Tyke.Net.Process;
 
 [UsedImplicitly]
 [Command("endloop")]
-internal class CommandEndLoop() : CommandBase(CommandTypes.EndLoop)
+internal class CommandEndLoop : CommandBase
 {
     private CommandBase _loopBack;
 
     internal override void ParseCommand(Parser.Tokeniser stack)
     {
-        bool gotLoop = false;
-        bool gotUntil = false;
+        var gotLoop = false;
+        var gotUntil = false;
 
         // just one word - endloop 
         stack.VerifyAndPop("endloop");
 
         // OK - is there a loop & untils 
-        CommandBase x;
 
-        while((x = Symbols.ProcessStack.Pop()) != null)
+        while(Symbols.ProcessStack.Pop() is { } x)
         {
-            if(x.CommandType == CommandTypes.Loop)
+            if(x is CommandLoop)
             {
                 _loopBack = x.Next;	
                 gotLoop = true;
                 break;
             }
             else
-            if(x.CommandType == CommandTypes.Until)
+            if(x is CommandUntil until)
             {
-                (x as CommandBranchBase).Jump = Next;
-
-                //static_cast<CProcBranch*>(x) -> cpcJump = cpcNext;
+                until.Jump = Next;
                 gotUntil = true;
             }
             else

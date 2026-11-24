@@ -5,7 +5,7 @@ namespace Tyke.Net.Process;
 
 [UsedImplicitly]
 [Command("switch")]
-internal class CommandSwitch() : CommandBase(CommandTypes.Switch)
+internal class CommandSwitch : CommandBase
 {
     private CommandCase _default;
     private CommandBase _endSwitch;

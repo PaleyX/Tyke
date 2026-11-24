@@ -7,7 +7,7 @@ using Tyke.Net.Assign;
 
 namespace Tyke.Net.Process;
 
-internal class CommandAlphaAssign() : CommandBase(CommandTypes.AlphaAssign)
+internal class CommandAlphaAssign : CommandBase
 {
     private Data.DatafieldAlpha _object;
     private readonly List<AlphaAssignBase> _postfix = [];

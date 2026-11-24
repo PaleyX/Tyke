@@ -5,7 +5,7 @@ namespace Tyke.Net.Process;
 
 [UsedImplicitly]
 [Command("close")]
-internal class CommandClose() : CommandBase(CommandTypes.Close)
+internal class CommandClose : CommandBase
 {
     private IActionClose _closable;
 

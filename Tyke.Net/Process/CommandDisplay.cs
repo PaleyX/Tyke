@@ -7,7 +7,7 @@ namespace Tyke.Net.Process;
 
 [UsedImplicitly]
 [Command("display")]
-internal class CommandDisplay() : CommandBase(CommandTypes.Display)
+internal class CommandDisplay : CommandBase
 {
     private readonly List<Misc.DisplayItemBase> _items = [];
 

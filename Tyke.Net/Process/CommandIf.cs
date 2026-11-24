@@ -4,7 +4,7 @@ namespace Tyke.Net.Process;
 
 [UsedImplicitly]
 [Command("if")]
-internal class CommandIf() : CommandBranchBase(CommandTypes.If)
+internal class CommandIf : CommandBranchBase
 {
     internal override void ParseCommand(Parser.Tokeniser stack)
     {

@@ -6,7 +6,7 @@ namespace Tyke.Net.Process;
 
 [UsedImplicitly]
 [Command("move")]
-internal class CommandMove() : CommandBase(CommandTypes.Move)
+internal class CommandMove : CommandBase
 {
     private Data.OperandBase _source;
     private Data.DatafieldBase _object;

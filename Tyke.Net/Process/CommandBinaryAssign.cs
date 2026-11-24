@@ -5,7 +5,7 @@ using Tyke.Net.Assign;
 
 namespace Tyke.Net.Process;
 
-internal class CommandBinaryAssign() : CommandBase(CommandTypes.BinaryAssign)
+internal class CommandBinaryAssign : CommandBase
 {
     private Data.DatafieldBinary _object;
     private readonly List<BinaryAssignBase> _postfix = [];

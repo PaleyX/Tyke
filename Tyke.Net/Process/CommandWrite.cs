@@ -5,7 +5,7 @@ namespace Tyke.Net.Process;
 
 [UsedImplicitly]
 [Command("write")]
-internal class CommandWrite() : CommandBase(CommandTypes.Write)
+internal class CommandWrite : CommandBase
 {
     private IActionWrite _writable;
 

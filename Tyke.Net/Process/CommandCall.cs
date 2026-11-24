@@ -4,7 +4,7 @@ namespace Tyke.Net.Process;
 
 [UsedImplicitly]
 [Command("call")]
-internal class CommandCall() : CommandBase(CommandTypes.Call), Symbols.ILinkable
+internal class CommandCall : CommandBase, Symbols.ILinkable
 {
     private ProcessBase _procedure;
     private string _procedureName;
