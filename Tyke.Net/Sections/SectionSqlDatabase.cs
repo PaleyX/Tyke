@@ -22,12 +22,6 @@ internal class SectionSqlDatabase : SectionBase
         );
     }
 
-    internal override void Process(SectionActions action)
-    {
-        // nowt to do
-        throw new TykeRunTimeException("Cannot perform action on SqlDatabase", Name);
-    }
-
     internal override void ReportStatistics()
     {
         // Nowt

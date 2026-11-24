@@ -5,7 +5,7 @@ namespace Tyke.Net.Tools;
 internal static class StringTools
 {
     /// <summary>
-    /// Returns a positive non zero number - or zero if an error
+    /// Returns a positive non-zero number - or zero if an error
     /// </summary>
     /// <param name="value"></param>
     /// <returns></returns>

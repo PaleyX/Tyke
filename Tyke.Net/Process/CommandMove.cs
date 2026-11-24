@@ -22,7 +22,7 @@ internal class CommandMove() : CommandBase(CommandTypes.Move)
             return;
         }
             
-        // first must be move
+        // first must be 'move'
         stack.VerifyAndPop("move");
             
         // next is a literal or a datafield

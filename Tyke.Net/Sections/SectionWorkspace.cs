@@ -17,11 +17,6 @@ internal class SectionWorkspace : SectionBufferBase
         );
     }
 
-    internal override void Process(SectionActions action)
-    {
-        throw new ApplicationException("Cannot process workspace section");
-    }
-
     internal override void ReportStatistics()
     {
         // Nowt

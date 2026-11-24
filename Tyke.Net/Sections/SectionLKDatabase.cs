@@ -60,11 +60,6 @@ internal class SectionLkDatabase : SectionBase
         );
     }
 
-    internal override void Process(SectionActions action)
-    {
-        throw new NotImplementedException();
-    }
-
     internal override void ReportStatistics()
     {
         //TODO: Statistics

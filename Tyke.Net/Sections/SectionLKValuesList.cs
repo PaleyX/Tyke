@@ -24,11 +24,6 @@ internal class SectionLkValuesList : SectionLkValuesBase, ISectionBlock
             Errors.Error.ReportError("No values declared");
     }
 
-    internal override void Process(SectionActions action)
-    {
-        throw new ApplicationException("Cannot process listknife values list section");
-    }
-
     internal override string GetDescription(string value)
     {
         value = Normalise(value);

@@ -36,11 +36,6 @@ internal class SectionLkValuesProcedure : SectionLkValuesBase, Symbols.ILinkable
         return _description.ToString();
     }
 
-    internal override void Process(SectionActions action)
-    {
-        // nowt
-    }
-
     #region Parsing
     private void ParseName(string value)
     {

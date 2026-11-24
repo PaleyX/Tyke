@@ -1,9 +1,12 @@
-﻿namespace Tyke.Net.Process;
+﻿
+using Tyke.Net.Sections;
+
+namespace Tyke.Net.Process;
 
 [Command("do")]
 internal class CommandDo() : CommandBase(CommandTypes.Do)
 {
-    private Sections.SectionBase _section;
+    private IActionDo _doable;
 
     internal override void ParseCommand(Parser.Tokeniser stack)
     {
@@ -15,17 +18,12 @@ internal class CommandDo() : CommandBase(CommandTypes.Do)
         stack.VerifyAndPop("do");
 
         // something which can be done
-        _section = Symbols.SymbolTable.GetSymbol<Sections.SectionBase>(stack.Pop());
-        if (_section == null)
-            return;
-
-        if (_section.CanDo() == false)
-            Errors.Error.SyntaxError("Section does not support do");
+        _doable = Symbols.SymbolTable.GetActionable<IActionDo>(stack.Pop());
     }
 
     internal override CommandBase Process()
     {
-        _section.Process(Sections.SectionActions.Do);
+        _doable.Do();
 
         return Next;
     }

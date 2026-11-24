@@ -5,7 +5,7 @@ using System.Diagnostics;
 namespace Tyke.Net.Sections;
 
 [Section("listknife filter")]
-internal class SectionLkFilter : SectionBase, ISectionBlock
+internal class SectionLkFilter : SectionBase, ISectionBlock, IActionPut
 {
     private string _description;
     private SectionLkDatabase _database;
@@ -30,10 +30,8 @@ internal class SectionLkFilter : SectionBase, ISectionBlock
 
     internal string Description => _description;
 
-    internal override void Process(SectionActions action)
+    public void Put()
     {
-        Debug.Assert(action == SectionActions.Put);
-
         ++_put;
 
         // first
@@ -74,11 +72,6 @@ internal class SectionLkFilter : SectionBase, ISectionBlock
         stats.Add("Added", _added);
 
         stats.Report();
-    }
-
-    internal override bool CanPut()
-    {
-        return true;
     }
 
     internal override void PostCompile()

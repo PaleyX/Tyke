@@ -1,9 +1,11 @@
-﻿namespace Tyke.Net.Process;
+﻿using Tyke.Net.Sections;
+
+namespace Tyke.Net.Process;
 
 [Command("put")]
 internal class CommandPut() : CommandBase(CommandTypes.Put)
 {
-    private Sections.SectionBase _section;
+    private IActionPut _putable;
 
     internal override void ParseCommand(Parser.Tokeniser stack)
     {
@@ -15,17 +17,12 @@ internal class CommandPut() : CommandBase(CommandTypes.Put)
         stack.VerifyAndPop("put");
 
         // something which can be put
-        _section = Symbols.SymbolTable.GetSymbol<Sections.SectionBase>(stack.Pop());
-        if (_section == null)
-            return;
-
-        if (_section.CanPut() == false)
-            Errors.Error.SyntaxError("Section does not support put");
+        _putable = Symbols.SymbolTable.GetActionable<IActionPut>(stack.Pop());
     }
 
     internal override CommandBase Process()
     {
-        _section.Process(Sections.SectionActions.Put);
+        _putable.Put();
 
         return Next;
     }
