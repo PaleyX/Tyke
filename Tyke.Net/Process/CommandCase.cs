@@ -1,5 +1,8 @@
-﻿namespace Tyke.Net.Process;
+﻿using JetBrains.Annotations;
 
+namespace Tyke.Net.Process;
+
+[UsedImplicitly]
 [Command("case")]
 [Command("default")]
 internal class CommandCase() : CommandBranchBase(CommandTypes.Case)
@@ -30,13 +33,7 @@ internal class CommandCase() : CommandBranchBase(CommandTypes.Case)
 
         // top of stack must be a switch
         var x = Symbols.ProcessStack.Peek();
-        if (x == null)
-        {
-            Errors.Error.SyntaxError("No switch command found");
-            return;
-        }
-
-        if (x.CommandType != CommandTypes.Switch)
+        if (x is not { CommandType: CommandTypes.Switch })
         {
             Errors.Error.SyntaxError("No switch command found");
             return;

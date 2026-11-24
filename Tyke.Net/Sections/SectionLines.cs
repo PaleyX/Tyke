@@ -21,11 +21,11 @@ internal class SectionLines
         {
             string line = Parser.TykeFile.GetLine();
 
-            if(line.ToLower() == "end")
+            if(line.ToLowerInvariant() == "end")
                 break;
 
             // start of a begin...end block?
-            if (line.ToLower() == "begin")
+            if (line.ToLowerInvariant() == "begin")
             {
                 ParseBlock();
                 continue;

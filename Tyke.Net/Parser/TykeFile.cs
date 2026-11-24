@@ -35,14 +35,14 @@ internal static class TykeFile
                 Console.WriteLine("{0}:{1}", _lineNumber, line);
 
             // #skip
-            if (line.Trim().ToLower().StartsWith("#skip"))
+            if (line.Trim().ToLowerInvariant().StartsWith("#skip"))
             {
                 inSkip = true;
                 continue;
             }
 
             // #endskip
-            if (line.Trim().ToLower().StartsWith("#endskip"))
+            if (line.Trim().ToLowerInvariant().StartsWith("#endskip"))
             {
                 if (inSkip)
                     inSkip = false;

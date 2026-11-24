@@ -47,8 +47,6 @@ internal class DatabaseColumn
                 _type = ColumnTypes.Int;
                 break;
             case "nvarchar":
-                _type = ColumnTypes.String;
-                break;
             case "nchar":
                 _type = ColumnTypes.String;
                 break;

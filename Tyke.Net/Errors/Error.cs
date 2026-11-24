@@ -58,7 +58,7 @@ internal static class Error
                 SyntaxError("Unknown datafield type");
                 break;
             case StdErrors.IncompatibleOperands:
-                SyntaxError("incompatibe operands");
+                SyntaxError("incompatible operands");
                 break;
             case StdErrors.ExpectedAlphaDatafield:
                 SyntaxError("Expected alpha datafield");

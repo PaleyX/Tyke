@@ -1,12 +1,14 @@
-﻿using System;
+﻿using JetBrains.Annotations;
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.IO;
 using System.Diagnostics;
+using System.IO;
+using System.Linq;
 using System.Xml.Linq;
 
 namespace Tyke.Net.Sections;
 
+[UsedImplicitly]
 [Section("listknife database")]
 internal class SectionLkDatabase : SectionBase
 {
@@ -102,7 +104,7 @@ internal class SectionLkDatabase : SectionBase
 
     internal void AddAttributeValue(int attributeId, string value)
     {
-        int urn = Convert.ToInt32(_reference.GetDWord());
+        var urn = Convert.ToInt32(_reference.GetDWord());
         Universe(urn);
 
         AddToken(attributeId, value);
@@ -110,7 +112,7 @@ internal class SectionLkDatabase : SectionBase
 
     internal void AddFilterFlag(int filterId)
     {
-        int urn = Convert.ToInt32(_reference.GetDWord());
+        var urn = Convert.ToInt32(_reference.GetDWord());
         Universe(urn);
 
         AddToken(FilterAttrId, _filters[filterId].Description);
@@ -311,7 +313,7 @@ internal class SectionLkDatabase : SectionBase
         // order
         var sorted = _tokens.Select(t => t.Key)
             .OrderBy(x => x.AttributeId)
-            .ThenBy(x => x.Value);
+            .ThenBy(x => x.Value, StringComparer.Ordinal);
 
         // Close and flush temp file
         _tempWriter.Flush();
@@ -320,11 +322,11 @@ internal class SectionLkDatabase : SectionBase
         HashSet<int> added = [];
 
         // start xml documents
-        XDocument attributesXml = new XDocument(
-            new XElement("Attributes", null));
+        var attributesXml = new XDocument(
+            new XElement("Attributes"));
 
-        XDocument valuesXml = new XDocument(
-            new XElement("Values", null));
+        var valuesXml = new XDocument(
+            new XElement("Values"));
 
         using (Stream stream = new FileStream(TempPathname, FileMode.Open, FileAccess.Read, FileShare.None))
         {
@@ -332,7 +334,7 @@ internal class SectionLkDatabase : SectionBase
             {
                 foreach (var tokenKey in sorted)
                 {
-                    ListKnife.LkToken token = _tokens[tokenKey];
+                    var token = _tokens[tokenKey];
                     token.AppendData(reader, _dataWriter);
 
                     switch (tokenKey.AttributeId)
@@ -356,7 +358,7 @@ internal class SectionLkDatabase : SectionBase
                             break;
                         default:
                         {
-                            SectionLkAttribute attribute = _attributes[tokenKey.AttributeId];
+                            var attribute = _attributes[tokenKey.AttributeId];
 
                             if (!added.Contains(tokenKey.AttributeId))
                             {
@@ -379,7 +381,7 @@ internal class SectionLkDatabase : SectionBase
         _transWriter.Flush();
         _transWriter.Close();
 
-        //TODO: FileLength propbably needs some work
+        //TODO: FileLength probably needs some work
         // try to find the original source to see how it should be calculated
         // if not - round up until it is divisible by 8
         var infoXml = new XDocument(
@@ -409,7 +411,7 @@ internal class SectionLkDatabase : SectionBase
         }
     }
 
-    private XElement GetAttributeElement(int attributeId, string name, string group, string type, bool system)
+    private static XElement GetAttributeElement(int attributeId, string name, string group, string type, bool system)
     {
         group ??= string.Empty;
 
@@ -423,10 +425,10 @@ internal class SectionLkDatabase : SectionBase
 
     private XElement GetValueElement(ListKnife.LkToken token, int attributeId, string value, string description)
     {
-        ArgumentNullException.ThrowIfNull(value, "Response value cannot be null or empty");
-        ArgumentNullException.ThrowIfNull(description, "Response description cannot be null or empty");
+        ArgumentNullException.ThrowIfNull(value);
+        ArgumentNullException.ThrowIfNull(description);
 
-        XElement element = new XElement("Value",
+        var element = new XElement("Value",
             new XAttribute("id", attributeId),
             new XAttribute("value", value),
             new XAttribute("description", description),

@@ -68,5 +68,5 @@ internal class SectionLkValuesList : SectionLkValuesBase, ISectionBlock
     }
     #endregion ISectionBlock
 
-    private static string Normalise(string value) => value.ToLower();
+    private static string Normalise(string value) => value.ToLowerInvariant();
 }

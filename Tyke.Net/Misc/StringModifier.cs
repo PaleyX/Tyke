@@ -68,12 +68,12 @@ internal class StringModifier
 
     private void ToUpper()
     {
-        _text = _text.ToUpper();
+        _text = _text.ToUpperInvariant();
     }
 
     private void ToLower()
     {
-        _text = _text.ToLower();
+        _text = _text.ToLowerInvariant();
     }
 
     private void RightJustify()

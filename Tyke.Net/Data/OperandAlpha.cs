@@ -88,9 +88,11 @@ internal class OperandAlpha : OperandBase
     public override string ToString()
     {
         if (DataType == DataTypes.Datafield)
+        {
             return _datafield.ToString();
-        else
-            return _const;
+        }
+
+        return _const;
     }
 
 }

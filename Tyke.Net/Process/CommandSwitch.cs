@@ -1,7 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using JetBrains.Annotations;
+using System.Collections.Generic;
 
 namespace Tyke.Net.Process;
 
+[UsedImplicitly]
 [Command("switch")]
 internal class CommandSwitch() : CommandBase(CommandTypes.Switch)
 {

@@ -1,8 +1,9 @@
 ﻿using System;
-using System.Text;
 using System.Diagnostics;
 using System.IO;
 using System.Numerics;
+using System.Runtime.CompilerServices;
+using System.Text;
 
 namespace Tyke.Net.Data;
 
@@ -167,12 +168,8 @@ internal class DataBuffer
 
     internal void Increment<T>(int offset) where T : unmanaged, IUnsignedNumber<T>
     {
-        unsafe
-        {
-            fixed (byte* p = _buffer)
-            {
-                (*(T*)(p + offset))++;
-            }
-        }
+        ref var value = ref Unsafe.As<byte, T>(ref _buffer[offset]);
+        value++;
+
     }
 }

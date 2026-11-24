@@ -1,5 +1,8 @@
-﻿namespace Tyke.Net.Process;
+﻿using JetBrains.Annotations;
 
+namespace Tyke.Net.Process;
+
+[UsedImplicitly]
 [Command("endloop")]
 internal class CommandEndLoop() : CommandBase(CommandTypes.EndLoop)
 {
