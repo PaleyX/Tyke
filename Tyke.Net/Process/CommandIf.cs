@@ -1,5 +1,8 @@
-﻿namespace Tyke.Net.Process;
+﻿using JetBrains.Annotations;
 
+namespace Tyke.Net.Process;
+
+[UsedImplicitly]
 [Command("if")]
 internal class CommandIf() : CommandBranchBase(CommandTypes.If)
 {

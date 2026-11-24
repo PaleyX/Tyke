@@ -1,8 +1,10 @@
 ﻿
+using JetBrains.Annotations;
 using Tyke.Net.Sections;
 
 namespace Tyke.Net.Process;
 
+[UsedImplicitly]
 [Command("do")]
 internal class CommandDo() : CommandBase(CommandTypes.Do)
 {

@@ -1,7 +1,9 @@
-﻿using Tyke.Net.Sections;
+﻿using JetBrains.Annotations;
+using Tyke.Net.Sections;
 
 namespace Tyke.Net.Process;
 
+[UsedImplicitly]
 [Command("get")]
 internal class CommandGet() : CommandBase(CommandTypes.Get)
 {

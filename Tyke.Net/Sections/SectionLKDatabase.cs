@@ -130,7 +130,6 @@ internal class SectionLkDatabase : SectionBase
     internal int BitmapLength => _bitmapLength;
 
     internal BinaryWriter TempWriter => _tempWriter;
-    internal BinaryWriter DataWriter => _dataWriter;
 
     private string TempPathname { get; set; }
     private string DataPathname { get; set; }

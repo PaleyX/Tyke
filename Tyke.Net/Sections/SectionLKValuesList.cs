@@ -1,8 +1,10 @@
-﻿using System;
+﻿using JetBrains.Annotations;
+using System;
 using System.Collections.Generic;
 
 namespace Tyke.Net.Sections;
 
+[UsedImplicitly]
 [Section("listknife values list")]
 internal class SectionLkValuesList : SectionLkValuesBase, ISectionBlock
 {

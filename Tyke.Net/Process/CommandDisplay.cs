@@ -1,9 +1,11 @@
-﻿using System;
+﻿using JetBrains.Annotations;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace Tyke.Net.Process;
 
+[UsedImplicitly]
 [Command("display")]
 internal class CommandDisplay() : CommandBase(CommandTypes.Display)
 {

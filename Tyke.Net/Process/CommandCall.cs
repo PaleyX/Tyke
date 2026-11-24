@@ -1,5 +1,8 @@
-﻿namespace Tyke.Net.Process;
+﻿using JetBrains.Annotations;
 
+namespace Tyke.Net.Process;
+
+[UsedImplicitly]
 [Command("call")]
 internal class CommandCall() : CommandBase(CommandTypes.Call), Symbols.ILinkable
 {

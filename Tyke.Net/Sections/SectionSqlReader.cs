@@ -1,12 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Data;
+﻿using JetBrains.Annotations;
 using Microsoft.Data.SqlClient;
+using System;
+using System.Collections.Generic;
+using System.Data;
 using System.Diagnostics;
+using System.Linq;
 
 namespace Tyke.Net.Sections;
 
+[UsedImplicitly]
 [Section("sqlreader")]
 internal class SectionSqlReader : SectionBase, ISectionBlock, IActionOpen, IActionRead, IActionClose
 {
@@ -201,11 +203,11 @@ internal class SectionSqlReader : SectionBase, ISectionBlock, IActionOpen, IActi
         }
 
         // any not mapped
-        if (_columns.Count(c => c.IsMapped == false) > 0)
+        if (_columns.Count(c => !c.IsMapped) > 0)
         {
             Errors.Error.NonTerminatingRuntimeError("Unmapped column(s) found opening SqlReader: {0}", Name);
 
-            foreach (var column in _columns.Where(c => c.IsMapped == false))
+            foreach (var column in _columns.Where(c => !c.IsMapped))
             {
                 Errors.Error.NonTerminatingRuntimeError("No mapping found for {0}", column.MappedTo);
             }

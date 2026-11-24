@@ -1,8 +1,8 @@
-﻿using System;
-
+﻿using JetBrains.Annotations;
 
 namespace Tyke.Net.Sections;
 
+[UsedImplicitly]
 [Section("workspace")]
 internal class SectionWorkspace : SectionBufferBase
 {

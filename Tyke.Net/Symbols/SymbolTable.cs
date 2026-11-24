@@ -71,9 +71,9 @@ internal static class SymbolTable
         AddSymbol(symbolBase);
     }
 
-    internal static IEnumerable<Sections.SectionBase> GetSections()
+    internal static IEnumerable<SectionBase> GetSections()
     {
-        return _symbols.Where(s => s.Value is Sections.SectionBase).Select(s => s.Value).Cast<Sections.SectionBase>();
+        return _symbols.Where(s => s.Value is SectionBase).Select(s => s.Value).Cast<SectionBase>();
     }
 
     internal static IEnumerable<Process.ProcessBase> GetProcedures()
