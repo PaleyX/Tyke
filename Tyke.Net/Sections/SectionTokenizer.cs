@@ -5,7 +5,7 @@ using System.Linq;
 namespace Tyke.Net.Sections;
 
 [Section("tokenizer")]
-internal class SectionTokenizer : SectionBase
+internal class SectionTokenizer : SectionBase, IActionPut, IActionGet
 {
     private Data.DatafieldAlpha _datafield;
     private Data.DatafieldAlpha _tokenField;
@@ -32,30 +32,12 @@ internal class SectionTokenizer : SectionBase
         );
     }
 
-    internal override bool CanPut() { return true; }
-    internal override bool CanGet() { return true; }
-
-    internal override void Process(SectionActions action)
-    {
-        switch (action)
-        {
-            case SectionActions.Put:
-                ProcessPut();
-                break;
-            case SectionActions.Get:
-                ProcessGet();
-                break;
-            default:
-                throw new ApplicationException("SectionTokenizer::Process");
-        }
-    }
-
     internal override void ReportStatistics()
     {
         //TODO:
     }
 
-    private void ProcessPut()
+    public void Put()
     {
         ++_put;
             
@@ -73,7 +55,7 @@ internal class SectionTokenizer : SectionBase
 
     }
 
-    private void ProcessGet()
+    public void Get()
     {
         ++_get;
 

@@ -2,13 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Data;
-using System.Data.SqlClient;
+using Microsoft.Data.SqlClient;
 using System.Diagnostics;
 
 namespace Tyke.Net.Sections;
 
 [Section("sqlreader")]
-internal class SectionSqlReader : SectionBase, ISectionBlock
+internal class SectionSqlReader : SectionBase, ISectionBlock, IActionOpen, IActionRead, IActionClose
 {
     private SectionSqlDatabase _database;
     private Data.OperandAlpha _query;
@@ -35,29 +35,7 @@ internal class SectionSqlReader : SectionBase, ISectionBlock
         );
     }
 
-    internal override bool CanOpen() { return true; }
-    internal override bool CanRead() { return true; }
-    internal override bool CanClose() { return true; }
-
-    internal override void Process(SectionActions action)
-    {
-        switch (action)
-        {
-            case SectionActions.Read:
-                ReadMe();
-                break;
-            case SectionActions.Open:
-                OpenMe();
-                break;
-            case SectionActions.Close:
-                CloseMe();
-                break;
-            default:
-                throw new TykeRunTimeException("Unsupported action in SqlReader", Name);
-        }
-    }
-
-    private void OpenMe()
+    public void Open()
     {
         if (_reader != null)
             throw new TykeRunTimeException("Attempt to open already open SqlReader", Name);
@@ -80,7 +58,7 @@ internal class SectionSqlReader : SectionBase, ISectionBlock
         ++_open;
     }
 
-    private void ReadMe()
+    public void Read()
     {
         try
         {
@@ -99,7 +77,9 @@ internal class SectionSqlReader : SectionBase, ISectionBlock
         }
     }
 
-    private void CloseMe()
+    public bool CanRead => true;
+
+    public void Close()
     {
         if (_reader == null)
             throw new TykeRunTimeException("Attempt to close unopen SqlReader", Name);

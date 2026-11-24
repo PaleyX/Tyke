@@ -87,14 +87,14 @@ internal class CommandAlphaAssign() : CommandBase(CommandTypes.AlphaAssign)
         {
             if ((l++ % 2) == 0)
             {
-                if (!(item is AlphaAssignOperator))
+                if (item is not AlphaAssignOperator)
                 {
                     Errors.Error.SyntaxError("Expected operator");
                 }
             }
             else
             {
-                if (item is AlphaAssignConstant || item is AlphaAssignDatafield)
+                if (item is AlphaAssignConstant or AlphaAssignDatafield)
                 {
                     // fine
                 }
@@ -131,7 +131,7 @@ internal class CommandAlphaAssign() : CommandBase(CommandTypes.AlphaAssign)
 
     private void ProcessExtended()
     {
-        StringBuilder sb = new StringBuilder();
+        var sb = new StringBuilder();
 
         // All this assumes the only operator is "="
         foreach (var item in _postfix)

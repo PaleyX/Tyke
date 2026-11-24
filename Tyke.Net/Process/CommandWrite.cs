@@ -1,9 +1,11 @@
-﻿namespace Tyke.Net.Process;
+﻿using Tyke.Net.Sections;
+
+namespace Tyke.Net.Process;
 
 [Command("write")]
 internal class CommandWrite() : CommandBase(CommandTypes.Write)
 {
-    private Sections.SectionBase _section;
+    private IActionWrite _writable;
 
     internal override void ParseCommand(Parser.Tokeniser stack)
     {
@@ -15,15 +17,17 @@ internal class CommandWrite() : CommandBase(CommandTypes.Write)
         stack.VerifyAndPop("write");
 
         // something which can be written
-        _section = Symbols.SymbolTable.GetSymbol<Sections.SectionBase>(stack.Pop());
+        _writable = Symbols.SymbolTable.GetActionable<IActionWrite>(stack.Pop());
 
-        if (_section.CanWrite() == false)
-            Errors.Error.SyntaxError("Section does not support write");
+        if (!_writable.CanWrite)
+        {
+            Errors.Error.ReportError("Read action incompatible with access type");
+        }
     }
 
     internal override CommandBase Process()
     {
-        _section.Process(Sections.SectionActions.Write);
+        _writable.Write();
 
         return Next;
     }

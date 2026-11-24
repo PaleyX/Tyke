@@ -5,7 +5,7 @@ using System.IO;
 namespace Tyke.Net.Sections;
 
 [Section("file")]
-internal class SectionFile : SectionBufferBase
+internal class SectionFile : SectionBufferBase, IActionOpen, IActionRead, IActionWrite, IActionClose
 {
     private Stream _stream;
     private StreamWriter _textWriter;
@@ -48,31 +48,8 @@ internal class SectionFile : SectionBufferBase
         );
     }
 
-    internal override bool CanOpen() { return true; }
-    internal override bool CanRead() { return _accessType == AccessTypes.Read; }
-    internal override bool CanWrite() { return _accessType == AccessTypes.Write; }
-    internal override bool CanClose() { return true; }
-
-    internal override void Process(SectionActions action)
-    {
-        switch (action)
-        {
-            case SectionActions.Read:
-                ReadMe();
-                break;
-            case SectionActions.Write:
-                WriteMe();
-                break;
-            case SectionActions.Open:
-                OpenMe();
-                break;
-            case SectionActions.Close:
-                CloseMe();
-                break;
-            default:
-                throw new ApplicationException("Unsupported action in File");
-        }
-    }
+    public bool CanRead => _accessType == AccessTypes.Read;
+    public bool CanWrite => _accessType == AccessTypes.Write; 
 
     internal override void ReportStatistics()
     {
@@ -134,9 +111,9 @@ internal class SectionFile : SectionBufferBase
     }
     #endregion Parsing
 
-    private void OpenMe()
+    public void Open()
     {
-        string pathname = _pathname.ToString();
+        var pathname = _pathname.ToString();
 
         switch (_accessType)
         {
@@ -162,7 +139,7 @@ internal class SectionFile : SectionBufferBase
         ++_open;
     }
 
-    private void CloseMe()
+    public void Close()
     {
         ++_close;
 
@@ -189,7 +166,7 @@ internal class SectionFile : SectionBufferBase
         _stream = null;
     }
 
-    private void WriteMe()
+    public void Write()
     {
         if (_stream == null)
             throw new ApplicationException("Attempt to write to unopen file");
@@ -211,7 +188,7 @@ internal class SectionFile : SectionBufferBase
         }
     }
 
-    private void ReadMe()
+    public void Read()
     {
         if (_stream == null)
             throw new ApplicationException("Attempt to read from unopen file");

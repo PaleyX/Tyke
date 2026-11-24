@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Data.SqlClient;
+using Microsoft.Data.SqlClient;
 using System.Diagnostics;
 
 namespace Tyke.Net.Sections;
@@ -20,12 +20,6 @@ internal class SectionSqlDatabase : SectionBase
             new SectionLine("name", ParseName),
             new SectionLine("connection string", ParseConnectionString)
         );
-    }
-
-    internal override void Process(SectionActions action)
-    {
-        // nowt to do
-        throw new TykeRunTimeException("Cannot perform action on SqlDatabase", Name);
     }
 
     internal override void ReportStatistics()

@@ -3,10 +3,10 @@
 namespace Tyke.Net.Sections;
 
 [Section("listknife attribute")]
-internal class SectionLkAttribute: SectionBase
+internal class SectionLkAttribute: SectionBase, IActionPut
 {
     private string _description;
-    private Data.DatafieldBase _field;
+    private DatafieldBase _field;
     private SectionLkDatabase _database;
     private SectionLkValuesBase _values;
     private string _group;
@@ -54,11 +54,6 @@ internal class SectionLkAttribute: SectionBase
         return value;
     }
 
-    internal override bool CanPut() 
-    { 
-        return true; 
-    }
-
     internal override void PostCompile()
     {
         if (_database == null)
@@ -67,15 +62,12 @@ internal class SectionLkAttribute: SectionBase
         _attributeId = _database.RegisterAttribute(this);
     }
 
-    internal override void Process(SectionActions action)
+    public void Put()
     {
-        if(action != SectionActions.Put)
-            throw new TykeRunTimeException("Unsupported action in LKAttribute", Name);
-
         ++_put;
 
         // get value as string
-        string value = _field.ToString();
+        var value = _field.ToString();
 
         if (string.IsNullOrWhiteSpace(value))
             return;
@@ -112,7 +104,7 @@ internal class SectionLkAttribute: SectionBase
 
     private void ParseValueField(string value)
     {
-        _field = Symbols.SymbolTable.GetSymbol<Data.DatafieldBase>(value);
+        _field = Symbols.SymbolTable.GetSymbol<DatafieldBase>(value);
     }
 
     private void ParseDatabase(string value)

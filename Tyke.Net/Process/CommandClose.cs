@@ -1,9 +1,11 @@
-﻿namespace Tyke.Net.Process;
+﻿using Tyke.Net.Sections;
+
+namespace Tyke.Net.Process;
 
 [Command("close")]
 internal class CommandClose() : CommandBase(CommandTypes.Close)
 {
-    private Sections.SectionBase _section;
+    private IActionClose _closable;
 
     internal override void ParseCommand(Parser.Tokeniser stack)
     {
@@ -15,17 +17,12 @@ internal class CommandClose() : CommandBase(CommandTypes.Close)
         stack.VerifyAndPop("close");
 
         // something which can be closed
-        _section = Symbols.SymbolTable.GetSymbol<Sections.SectionBase>(stack.Pop());
-        if (_section == null)
-            return;
-
-        if (_section.CanClose() == false)
-            Errors.Error.SyntaxError("Section does not support close");
+        _closable = Symbols.SymbolTable.GetActionable<IActionClose>(stack.Pop());
     }
 
     internal override CommandBase Process()
     {
-        _section.Process(Sections.SectionActions.Close);
+        _closable.Close();
 
         return Next;
     }

@@ -1,9 +1,11 @@
-﻿namespace Tyke.Net.Process;
+﻿using Tyke.Net.Sections;
+
+namespace Tyke.Net.Process;
 
 [Command("get")]
 internal class CommandGet() : CommandBase(CommandTypes.Get)
 {
-    private Sections.SectionBase _section;
+    private IActionGet _getable;
 
     internal override void ParseCommand(Parser.Tokeniser stack)
     {
@@ -15,17 +17,12 @@ internal class CommandGet() : CommandBase(CommandTypes.Get)
         stack.VerifyAndPop("get");
 
         // something which can be put
-        _section = Symbols.SymbolTable.GetSymbol<Sections.SectionBase>(stack.Pop());
-        if (_section == null)
-            return;
-
-        if (_section.CanGet() == false)
-            Errors.Error.SyntaxError("Section does not support get");
+        _getable = Symbols.SymbolTable.GetActionable<IActionGet>(stack.Pop());
     }
 
     internal override CommandBase Process()
     {
-        _section.Process(Sections.SectionActions.Get);
+        _getable.Get();
 
         return Next;
     }

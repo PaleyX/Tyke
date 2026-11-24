@@ -1,9 +1,11 @@
-﻿namespace Tyke.Net.Process;
+﻿using Tyke.Net.Sections;
+
+namespace Tyke.Net.Process;
 
 [Command("open")]
 internal class CommandOpen() : CommandBase(CommandTypes.Open)
 {
-    private Sections.SectionBase _section;
+    private IActionOpen _openable;
 
     internal override void ParseCommand(Parser.Tokeniser stack)
     {
@@ -15,17 +17,12 @@ internal class CommandOpen() : CommandBase(CommandTypes.Open)
         stack.VerifyAndPop("open");
 
         // something which can be opened
-        _section = Symbols.SymbolTable.GetSymbol<Sections.SectionBase>(stack.Pop());
-        if (_section == null)
-            return;
-
-        if(_section.CanOpen() == false)
-            Errors.Error.SyntaxError("Section does not support open");
+        _openable = Symbols.SymbolTable.GetActionable<IActionOpen>(stack.Pop());
     }
 
     internal override CommandBase Process()
     {
-        _section.Process(Sections.SectionActions.Open);
+        _openable.Open();
 
         return Next;
     }

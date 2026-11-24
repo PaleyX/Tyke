@@ -1,12 +1,27 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Tyke.Net.Sections;
 
 namespace Tyke.Net.Symbols;
 
 internal static class SymbolTable
 {
     private static readonly Dictionary<string, SymbolBase> _symbols = new();
+
+    internal static T GetActionable<T>(string name) where T: class, IAction
+    {
+        var section = GetSymbol<SymbolBase>(name);
+
+        if (section is T action)
+        {
+            return action;
+        }
+
+        Errors.Error.ReportError("Section does not support action");
+
+        return null;
+    }
 
     internal static T GetSymbol<T>(string name, bool reportError = true) where T: SymbolBase
     {

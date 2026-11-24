@@ -1,9 +1,11 @@
-﻿namespace Tyke.Net.Process;
+﻿using Tyke.Net.Sections;
+
+namespace Tyke.Net.Process;
 
 [Command("read")]
 internal class CommandRead() : CommandBase(CommandTypes.Read)
 {
-    private Sections.SectionBase _section;
+    private IActionRead _readable;
 
     internal override void ParseCommand(Parser.Tokeniser stack)
     {
@@ -15,17 +17,17 @@ internal class CommandRead() : CommandBase(CommandTypes.Read)
         stack.VerifyAndPop("read");
 
         // something which can be read
-        _section = Symbols.SymbolTable.GetSymbol<Sections.SectionBase>(stack.Pop());
-        if (_section == null)
-            return;
+        _readable = Symbols.SymbolTable.GetActionable<IActionRead>(stack.Pop());
 
-        if (_section.CanRead() == false)
-            Errors.Error.SyntaxError("Section does not support read");
+        if (!_readable.CanRead)
+        {
+            Errors.Error.ReportError("Read action incompatible with access type");
+        }
     }
 
     internal override CommandBase Process()
     {
-        _section.Process(Sections.SectionActions.Read);
+        _readable.Read();
 
         return Next;
     }
