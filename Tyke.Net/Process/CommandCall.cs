@@ -29,7 +29,6 @@ internal class CommandCall : CommandBase, Symbols.ILinkable
         return Next;
     }
 
-    #region ILinakable
     public void ProposeProcedure(ProcessBase procedure)
     {
         if (procedure.Name == _procedureName)
@@ -38,10 +37,9 @@ internal class CommandCall : CommandBase, Symbols.ILinkable
 
     public int LinkComplete()
     {
-        if (_procedure == null)
+        if (_procedure is null)
             Errors.Error.ReportError("unable to link to " + _procedureName);
 
         return _procedure == null ? 1 : 0;
     }
-    #endregion ILinkable
 }

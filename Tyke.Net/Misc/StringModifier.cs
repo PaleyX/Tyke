@@ -18,7 +18,7 @@ internal class StringModifier
     {
         _text = text;
 
-        foreach (Action action in _modifiers)
+        foreach (var action in _modifiers)
         {
             action();
         }
@@ -108,7 +108,7 @@ internal class StringModifier
         _text = " " + _text;
 
         if (_text.Length > _length)
-            _text = _text.Substring(0, _length);
+            _text = _text[.._length];
     }
 
     private void RemoveLeadingZeros()

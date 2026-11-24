@@ -44,14 +44,14 @@ internal class SectionLkValuesList : SectionLkValuesBase, ISectionBlock
     #region ISectionBlock
     public void ProcessBlockLine(string line)
     {
-        Tuple<string, string> pair = Tools.StringTools.SplitOnEquals(line);
+        var pair = Tools.StringTools.SplitOnEquals(line);
 
         // quoted string
-        string value = Tools.StringTools.GetQuotedString(pair.Item1);
+        var value = Tools.StringTools.GetQuotedString(pair.Item1);
         Tools.StringTools.ValidateNonEmpty(value);
 
         // quoted string
-        string description = Tools.StringTools.GetQuotedString(pair.Item2);
+        var description = Tools.StringTools.GetQuotedString(pair.Item2);
         Tools.StringTools.ValidateNonEmpty(description);
 
         if(string.IsNullOrWhiteSpace(value) || string.IsNullOrWhiteSpace(description))

@@ -5,7 +5,7 @@ namespace Tyke.Net;
 
 class Program
 {
-    static int Main(string[] args)
+    public static int Main(string[] args)
     {
         // header
         Console.WriteLine("Tyke Control File Interpreter");

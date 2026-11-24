@@ -15,11 +15,11 @@ internal class CommandDisplay : CommandBase
     {
         stack.VerifyAndPop("display");
 
-        foreach (string token in stack.GetList())
+        foreach (var token in stack.GetList())
         {
             if (Tools.StringTools.IsQuotedString(token))
             {
-                string value = Tools.StringTools.GetQuotedString(token);
+                var value = Tools.StringTools.GetQuotedString(token);
 
                 _items.Add(new Misc.DisplayItemString(value));
             }
@@ -30,39 +30,13 @@ internal class CommandDisplay : CommandBase
                     _items.Add(new Misc.DisplayItemField(value));
             }
         }
-
-        //int count = 1;
-        //while (stack.Count() > 0)
-        //{
-        //    if (count % 2 == 0)
-        //        stack.VerifyAndPop(",");
-        //    else
-        //    {
-        //        string token = stack.Pop();
-
-        //        if (Tools.StringTools.IsQuotedString(token))
-        //        {
-        //            string value = Tools.StringTools.GetQuotedString(token);
-
-        //            _Items.Add(new Misc.DisplayItemString(value));
-        //        }
-        //        else
-        //        {
-        //            var value = Symbols.SymbolTable.GetSymbol<Data.DatafieldBase>(token);
-        //            if (value != null)
-        //                _Items.Add(new Misc.DisplayItemField(value));
-        //        }
-        //    }
-
-        //    ++count;
-        //}
     }
 
     internal override CommandBase Process()
     {
         var sb = new StringBuilder();
 
-        foreach (Misc.DisplayItemBase item in _items)
+        foreach (var item in _items)
         {
             sb.Append(item.Value());
         }

@@ -9,7 +9,7 @@ internal class Statistics
     private readonly SectionBase _section;
     private readonly string _type;
 
-    private readonly List<Tuple<string, object>> _values = [];
+    private readonly List<(string description, object value)> _values = [];
 
     internal Statistics(string type, SectionBase section)
     {
@@ -19,19 +19,19 @@ internal class Statistics
 
     internal void Add(string text, object value)
     {
-        _values.Add(new Tuple<string, object>(text + ":", value));
+        _values.Add((text + ":", value));
     }
 
     internal void Report()
     {
         Console.WriteLine();
-        Console.WriteLine("{0} - {1}", _type, _section.Name);
+        Console.WriteLine($"{_type} - {_section.Name}");
 
-        int length = _values.Max(v => v.Item1.Length);
+        var length = _values.Max(v => v.description.Length);
 
         foreach (var value in _values)
         {
-            Console.WriteLine("{0} {1}", value.Item1.PadRight(length), value.Item2);
+            Console.WriteLine($"{value.description.PadRight(length)} {value.value}");
         }
     }
 }

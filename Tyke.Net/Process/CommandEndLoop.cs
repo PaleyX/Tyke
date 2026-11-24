@@ -26,7 +26,7 @@ internal class CommandEndLoop : CommandBase
                 gotLoop = true;
                 break;
             }
-            else
+
             if(x is CommandUntil until)
             {
                 until.Jump = Next;

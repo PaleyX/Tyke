@@ -30,9 +30,9 @@ internal static class TykeFile
 
             // echo to screen
             if (inSkip)
-                Console.WriteLine("(S){0}:{1}", _lineNumber, line);
+                Console.WriteLine($"(S){_lineNumber}:{line}");
             else
-                Console.WriteLine("{0}:{1}", _lineNumber, line);
+                Console.WriteLine($"{_lineNumber}:{line}");
 
             // #skip
             if (line.Trim().ToLowerInvariant().StartsWith("#skip"))

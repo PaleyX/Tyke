@@ -11,7 +11,7 @@ internal class CommandModify : CommandBase
 
     internal override CommandBase Process()
     {
-        string text = _datafield.ToString();
+        var text = _datafield.ToString();
         text = _modifier.Modify(text);
         _datafield.Set(text);
 

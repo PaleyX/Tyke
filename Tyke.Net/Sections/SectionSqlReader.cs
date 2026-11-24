@@ -159,8 +159,8 @@ internal class SectionSqlReader : SectionBase, ISectionBlock, IActionOpen, IActi
 
     #region ISectionBlock
     public void ProcessBlockLine(string line)
-    {
-        Tuple<string, string> pair = Tools.StringTools.SplitOnEquals(line);
+    {  
+        var pair = Tools.StringTools.SplitOnEquals(line);
 
         // first is data field
         var datafield = Symbols.SymbolTable.GetSymbol<Data.DatafieldBase>(pair.Item1);
@@ -189,12 +189,7 @@ internal class SectionSqlReader : SectionBase, ISectionBlock, IActionOpen, IActi
 
                 // find column
                 var map = _columns.FirstOrDefault(c => string.Compare(c.MappedTo, name, true) == 0);
-                if (map != null)
-                {
-                    map.SetMapping(ordinal, size, type);
-                }
-
-                //Console.WriteLine("{0} = Ordinal = {1}, size = {2}, type = {3}", name, ordinal, size, type);
+                map?.SetMapping(ordinal, size, type);
             }
         }
         catch (Exception e)
@@ -219,7 +214,9 @@ internal class SectionSqlReader : SectionBase, ISectionBlock, IActionOpen, IActi
     private void SetDatafields()
     {
         foreach (var column in _columns)
+        {
             column.Set(_reader);
+        }
     }
 
     private void AddParameters()

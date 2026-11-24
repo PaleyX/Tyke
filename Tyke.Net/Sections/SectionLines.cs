@@ -32,13 +32,13 @@ internal class SectionLines
             }
 
             //TODO: make sure line doesn't end with '=' so "Name="
-
-            Tuple<string, string> pair = Tools.StringTools.SplitOnEquals(line);
-            if (pair == null)
+            
+            var pair = Tools.StringTools.SplitOnEquals(line);
+            if (pair == default)
                 continue;
 
-            string lhs = pair.Item1;
-            string rhs = pair.Item2;
+            var lhs = pair.Item1;
+            var rhs = pair.Item2;
 
             //Console.WriteLine("[{0}]", lhs);
             //Console.WriteLine("[{0}]", rhs);
