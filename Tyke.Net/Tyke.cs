@@ -106,7 +106,7 @@ internal static class Tyke
         stack.VerifyAndPop("procedure");
 
         // procedure name
-        string name = stack.Pop();
+        var name = stack.Pop();
 
         var procedure = new Process.ProcessProcedure(name);
         procedure.Compile();
@@ -143,7 +143,7 @@ internal static class Tyke
         watch.Stop();
 
         TimeSpan ts = watch.Elapsed;
-        string elapsedTime = $"{ts.Hours:00}:{ts.Minutes:00}:{ts.Seconds:00}.{ts.Milliseconds / 10:00}";
+        var elapsedTime = $"{ts.Hours:00}:{ts.Minutes:00}:{ts.Seconds:00}.{ts.Milliseconds / 10:00}";
         Console.WriteLine("RunTime " + elapsedTime);
 
         ReportStatistics();
@@ -154,6 +154,8 @@ internal static class Tyke
         var sections = Symbols.SymbolTable.GetSections();
 
         foreach (var section in sections)
+        {
             section.ReportStatistics();
+        }
     }
 }
