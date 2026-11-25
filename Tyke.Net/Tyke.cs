@@ -5,6 +5,8 @@ namespace Tyke.Net;
 
 internal static class Tyke
 {
+    internal static Context Context = new Context();
+
     private static Process.Process _process;
 
     internal static int Run(string pathname)

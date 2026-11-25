@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using Tyke.Net.Sections;
 
@@ -7,15 +6,12 @@ namespace Tyke.Net.Symbols;
 
 internal static class SymbolTable
 {
-    private static readonly Dictionary<string, SymbolBase> _symbols = new();
+    //private static readonly Dictionary<string, SymbolBase> _symbols = new();
 
     // a test hook - used to clear the global symbol table
     // - a bit hacky but needed unless I make the symbol table
     //   an object that is passed around
-    internal static void Clear()
-    {
-        _symbols.Clear();
-    }
+//
 
     internal static T GetActionable<T>(string name) where T: class, IAction
     {
@@ -33,7 +29,7 @@ internal static class SymbolTable
 
     internal static T GetSymbol<T>(string name, bool reportError = true) where T: SymbolBase
     {
-        if (!_symbols.TryGetValue(name, out var symbol))
+        if (!Tyke.Context.Symbols.TryGetValue(name, out var symbol))
         {
             if(reportError)
                 Errors.Error.SyntaxError("Unknown symbol: {0}", name);
@@ -81,12 +77,12 @@ internal static class SymbolTable
 
     internal static IEnumerable<SectionBase> GetSections()
     {
-        return _symbols.Where(s => s.Value is SectionBase).Select(s => s.Value).Cast<SectionBase>();
+        return Tyke.Context.Symbols.Where(s => s.Value is SectionBase).Select(s => s.Value).Cast<SectionBase>();
     }
 
     internal static IEnumerable<Process.ProcessBase> GetProcedures()
     {
-        return _symbols.Where(s => s.Value is Process.ProcessBase).Select(s => s.Value).Cast<Process.ProcessBase>();
+        return Tyke.Context.Symbols.Where(s => s.Value is Process.ProcessBase).Select(s => s.Value).Cast<Process.ProcessBase>();
     }
 
     private static void AddSymbol(SymbolBase symbolBase)
@@ -97,7 +93,7 @@ internal static class SymbolTable
             return;
         }
 
-        if (!_symbols.TryAdd(symbolBase.Name, symbolBase))
+        if (!Tyke.Context.Symbols.TryAdd(symbolBase.Name, symbolBase))
         {
             Errors.Error.ReportError("Duplicate symbol name: " + symbolBase.Name);
             return;

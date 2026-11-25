@@ -1,4 +1,5 @@
-﻿using Tyke.Net.Data;
+﻿using Tyke.Net;
+using Tyke.Net.Data;
 using Tyke.Net.Parser;
 using Tyke.Net.Expressions;
 
@@ -16,7 +17,7 @@ public class ExpressionsTests
     [InlineData(5, true)]
     public void Expression_Binary_List_Works(int value, bool expected)
     {
-        Tyke.Net.Symbols.SymbolTable.Clear();
+        Tyke.Net.Tyke.Context = new Context();
 
         var buffer = new DataBuffer(1024);
 
@@ -38,7 +39,7 @@ public class ExpressionsTests
     [InlineData("f", true)]
     public void Expression_Alpha_List_Works(string value, bool expected)
     {
-        Tyke.Net.Symbols.SymbolTable.Clear();
+        Tyke.Net.Tyke.Context = new Context();
 
         var buffer = new DataBuffer(1024);
 
