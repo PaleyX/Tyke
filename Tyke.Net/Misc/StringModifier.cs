@@ -100,7 +100,7 @@ internal class StringModifier
 
     private void ShiftLeft()
     {
-        _text = _text.Substring(1);
+        _text = _text[1..];
     }
 
     private void ShiftRight()

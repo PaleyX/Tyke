@@ -14,17 +14,11 @@ internal static class ProcessStack
 
     internal static CommandBase Pop()
     {
-        if (_stack.Count == 0)
-            return null;
-
-        return _stack.Pop();
+        return _stack.Count == 0 ? null : _stack.Pop();
     }
 
     internal static CommandBase Peek()
     {
-        if (_stack.Count == 0)
-            return null;
-
-        return _stack.Peek();
+        return _stack.Count == 0 ? null : _stack.Peek();
     }
 }

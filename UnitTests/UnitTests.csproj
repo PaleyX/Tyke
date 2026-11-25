@@ -8,11 +8,12 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Programs\SwitchTest.txt" />
+    <None Remove="Programs\SwitchTestExpressions.txt" />
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Include="Programs\SwitchTest.txt" />
+    <EmbeddedResource Include="Programs\SwitchTestExpressions.txt" />
+    <EmbeddedResource Include="Programs\SwitchTestSimple.txt" />
   </ItemGroup>
 
   <ItemGroup>

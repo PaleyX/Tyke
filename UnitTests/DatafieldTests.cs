@@ -2,6 +2,7 @@
 
 namespace UnitTests;
 
+[Collection("Non-Parallel Collection")]
 public class DatafieldTests
 {
     [Theory]

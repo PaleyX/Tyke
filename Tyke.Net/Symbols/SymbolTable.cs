@@ -9,6 +9,14 @@ internal static class SymbolTable
 {
     private static readonly Dictionary<string, SymbolBase> _symbols = new();
 
+    // a test hook - used to clear the global symbol table
+    // - a bit hacky but needed unless I make the symbol table
+    //   an object that is passed around
+    internal static void Clear()
+    {
+        _symbols.Clear();
+    }
+
     internal static T GetActionable<T>(string name) where T: class, IAction
     {
         var section = GetSymbol<SymbolBase>(name);

@@ -9,7 +9,7 @@ internal class OperandList<T> where T: OperandBase
     internal void ParseList(Parser.Tokeniser stack)
     {
         // a list of compatible data separated by commas
-        foreach (string token in stack.GetList())
+        foreach (var token in stack.GetList())
         {
             AddElement(token);
         }

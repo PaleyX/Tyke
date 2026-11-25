@@ -18,10 +18,12 @@ internal class CommandSwitch : CommandBase
             Errors.Error.ReportError("Empty case list on switch");
 
         // evaluate case expressions
-        foreach (CommandCase command in _cases)
+        foreach (var command in _cases)
         {
             if (command.Expression.Evaluate())
+            {
                 return command.Next;
+            }
         }
 
         // no matching case - if default go to its nop else

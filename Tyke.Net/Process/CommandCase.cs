@@ -51,7 +51,7 @@ internal class CommandCase : CommandBranchBase
         }
     }
 
-    internal Expressions.ExpressionBase Expression => base.Expression;
+    internal new Expressions.ExpressionBase Expression => base.Expression;
 
     internal override CommandBase Process()
     {

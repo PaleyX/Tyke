@@ -1,0 +1,22 @@
+﻿workspace
+	name = work
+	length = 1024
+end
+datafields
+	w-value =  1/ 4 / b / / [VALUE]
+	w-result = * / 10
+end
+process
+	switch 
+		case w-value in 1,2,3,4,5,6
+			w-result = "A"
+		case w-value inrange 7 to 11
+			w-result = "B"
+		case w-value > 11
+			w-result = "C"
+		default
+			w-result = "Default"
+	endswitch
+
+	display "Result: [",w-result,"]"
+end
