@@ -17,7 +17,7 @@ public class ExpressionsTests
     [InlineData(5, true)]
     public void Expression_Binary_List_Works(int value, bool expected)
     {
-        Tyke.Net.Tyke.Context = new Context();
+        Tyke.Net.Tyke.Context = new Context { ThrowOnError = true };
 
         var buffer = new DataBuffer(1024);
 
@@ -39,7 +39,7 @@ public class ExpressionsTests
     [InlineData("f", true)]
     public void Expression_Alpha_List_Works(string value, bool expected)
     {
-        Tyke.Net.Tyke.Context = new Context();
+        Tyke.Net.Tyke.Context = new Context { ThrowOnError = true };
 
         var buffer = new DataBuffer(1024);
 
