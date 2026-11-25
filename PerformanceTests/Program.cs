@@ -1,13 +1,12 @@
 ﻿using BenchmarkDotNet.Running;
 
-namespace PerformanceTests
+namespace PerformanceTests;
+
+internal class Program
 {
-    internal class Program
+    public static void Main(string[] args)
     {
-        public static void Main(string[] args)
-        {
-            var summary = BenchmarkRunner.Run<DataBufferIncrement>();
-            //var summary = BenchmarkRunner.Run<ArrayFill>();
-        }
+        var summary = BenchmarkRunner.Run<DataBufferIncrement>();
+        //var summary = BenchmarkRunner.Run<ArrayFill>();
     }
 }

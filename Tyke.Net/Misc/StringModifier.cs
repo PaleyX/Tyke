@@ -18,7 +18,7 @@ internal class StringModifier
     {
         _text = text;
 
-        foreach (Action action in _modifiers)
+        foreach (var action in _modifiers)
         {
             action();
         }
@@ -68,12 +68,12 @@ internal class StringModifier
 
     private void ToUpper()
     {
-        _text = _text.ToUpper();
+        _text = _text.ToUpperInvariant();
     }
 
     private void ToLower()
     {
-        _text = _text.ToLower();
+        _text = _text.ToLowerInvariant();
     }
 
     private void RightJustify()
@@ -100,7 +100,7 @@ internal class StringModifier
 
     private void ShiftLeft()
     {
-        _text = _text.Substring(1);
+        _text = _text[1..];
     }
 
     private void ShiftRight()
@@ -108,7 +108,7 @@ internal class StringModifier
         _text = " " + _text;
 
         if (_text.Length > _length)
-            _text = _text.Substring(0, _length);
+            _text = _text[.._length];
     }
 
     private void RemoveLeadingZeros()

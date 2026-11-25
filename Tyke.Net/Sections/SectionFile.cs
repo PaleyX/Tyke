@@ -1,9 +1,11 @@
-﻿using System;
+﻿using JetBrains.Annotations;
+using System;
 using System.Diagnostics;
 using System.IO;
 
 namespace Tyke.Net.Sections;
 
+[UsedImplicitly]
 [Section("file")]
 internal class SectionFile : SectionBufferBase, IActionOpen, IActionRead, IActionWrite, IActionClose
 {

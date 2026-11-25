@@ -16,7 +16,7 @@ internal abstract class SectionBase : SymbolBase
 
     internal abstract void ReportStatistics();
 
-    internal virtual void Compile()
+    internal void Compile()
     {
         if (LinesParser == null)
             throw new NullReferenceException("LinesParser");

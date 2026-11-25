@@ -6,7 +6,7 @@ internal static class OperandHelpers
 {
     internal static OperandBase AllocateOpFromToken(string token, bool mustBeDatafield = false)
     {
-        DatafieldBase datafield = Symbols.SymbolTable.GetSymbol<DatafieldBase>(token, false);
+        var datafield = Symbols.SymbolTable.GetSymbol<DatafieldBase>(token, false);
         if (datafield == null)
         {
             if (mustBeDatafield)

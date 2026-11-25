@@ -42,10 +42,7 @@ internal class Tokeniser
         return _tokens.ElementAt(tokens - 1);
     }
 
-    internal int Count()
-    {
-        return _tokens.Count;
-    }
+    internal int Count() => _tokens.Count;
 
     internal bool VerifyCount (int required, bool reportError = true)
     {
@@ -59,7 +56,7 @@ internal class Tokeniser
 
     internal bool VerifyAndPop(string required)
     {
-        string got = Pop();
+        var got = Pop();
         if(got == required)
             return true;
 
@@ -77,7 +74,7 @@ internal class Tokeniser
         return Count() == 0;
     }
 
-    internal IEnumerable<string> GetList(string seperator = ",")
+    internal IEnumerable<string> GetList(string separator = ",")
     {
         var count = 0;
 
@@ -86,7 +83,7 @@ internal class Tokeniser
             ++count;
 
             if (count % 2 == 0)
-                VerifyAndPop(seperator);
+                VerifyAndPop(separator);
             else
                 yield return Pop();
         }
@@ -210,40 +207,21 @@ internal class Tokeniser
         return token.ToString();
     }
 
-    private string PostProcessToken(string token)
+    private static string PostProcessToken(string token)
     {
-        string result = token;
-
-        if (result.Length == 0)
-            return result;
-
-
-        //// Parameter ?
-        //if(*sReturn.c_str() == '@')
-        //{
-        //    long l = atol(sReturn.c_str() + 1);
-        //    sReturn = CParams::Find(l);
-        //}
+        if (token.Length == 0)
+            return token;
 
         // builtin literals
-        switch (result)
+        return token switch
         {
-            case "spaces":
-            case "space":
-                return "\"\"";
-            case "zeros":
-            case "zero":
-                return "0";
-            case "quote":
-                return "\"";
-            case "tab":
-                return "\t";
-            case "bel":
-                return "\a";
-            case "crlf":
-                return Environment.NewLine;
-        }
-
-        return result;
+            "spaces" or "space" => "\"\"",
+            "zeros" or "zero" => "0",
+            "quote" => "\"",
+            "tab" => "\t",
+            "bel" => "\a",
+            "crlf" => Environment.NewLine,
+            _ => token
+        };
     }
 }

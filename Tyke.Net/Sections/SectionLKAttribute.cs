@@ -1,7 +1,9 @@
-﻿using Tyke.Net.Data;
+﻿using JetBrains.Annotations;
+using Tyke.Net.Data;
 
 namespace Tyke.Net.Sections;
 
+[UsedImplicitly]
 [Section("listknife attribute")]
 internal class SectionLkAttribute: SectionBase, IActionPut
 {

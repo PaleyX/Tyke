@@ -1,9 +1,11 @@
-﻿using System;
+﻿using JetBrains.Annotations;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace Tyke.Net.Sections;
 
+[UsedImplicitly]
 [Section("tokenizer")]
 internal class SectionTokenizer : SectionBase, IActionPut, IActionGet
 {

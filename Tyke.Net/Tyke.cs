@@ -89,43 +89,6 @@ internal static class Tyke
             Errors.Error.ReportError("Unknown section header: " + line);
         }
 
-        //switch (line)
-        //{
-        //    case "workspace":
-        //        section = new Sections.SectionWorkspace();
-        //        break;
-        //    case "file":
-        //        section = new Sections.SectionFile();
-        //        break;
-        //    case "sqldatabase":
-        //        section = new Sections.SectionSqlDatabase();
-        //        break;
-        //    case "sqlreader":
-        //        section = new Sections.SectionSqlReader();
-        //        break;
-        //    case "listknife database":
-        //        section = new Sections.SectionLkDatabase();
-        //        break;
-        //    case "listknife attribute":
-        //        section = new Sections.SectionLkAttribute();
-        //        break;
-        //    case "listknife filter":
-        //        section = new Sections.SectionLkFilter();
-        //        break;
-        //    case "listknife values list":
-        //        section = new Sections.SectionLkValuesList();
-        //        break;
-        //    case "listknife values procedure":
-        //        section = new Sections.SectionLkValuesProcedure();
-        //        break;
-        //    case "tokenizer":
-        //        section = new Sections.SectionTokenizer();
-        //        break;
-        //    default:
-        //        Errors.Error.ReportError("Unknown section header: " + line);
-        //        break;
-        //}
-
         if (section != null)
         {
             section.Compile();
@@ -143,7 +106,7 @@ internal static class Tyke
         stack.VerifyAndPop("procedure");
 
         // procedure name
-        string name = stack.Pop();
+        var name = stack.Pop();
 
         var procedure = new Process.ProcessProcedure(name);
         procedure.Compile();
@@ -179,8 +142,8 @@ internal static class Tyke
 
         watch.Stop();
 
-        TimeSpan ts = watch.Elapsed;
-        string elapsedTime = $"{ts.Hours:00}:{ts.Minutes:00}:{ts.Seconds:00}.{ts.Milliseconds / 10:00}";
+        var ts = watch.Elapsed;
+        var elapsedTime = $"{ts.Hours:00}:{ts.Minutes:00}:{ts.Seconds:00}.{ts.Milliseconds / 10:00}";
         Console.WriteLine("RunTime " + elapsedTime);
 
         ReportStatistics();
@@ -191,6 +154,8 @@ internal static class Tyke
         var sections = Symbols.SymbolTable.GetSections();
 
         foreach (var section in sections)
+        {
             section.ReportStatistics();
+        }
     }
 }

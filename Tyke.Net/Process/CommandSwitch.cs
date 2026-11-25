@@ -1,9 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using JetBrains.Annotations;
+using System.Collections.Generic;
 
 namespace Tyke.Net.Process;
 
+[UsedImplicitly]
 [Command("switch")]
-internal class CommandSwitch() : CommandBase(CommandTypes.Switch)
+internal class CommandSwitch : CommandBase
 {
     private CommandCase _default;
     private CommandBase _endSwitch;
@@ -16,10 +18,12 @@ internal class CommandSwitch() : CommandBase(CommandTypes.Switch)
             Errors.Error.ReportError("Empty case list on switch");
 
         // evaluate case expressions
-        foreach (CommandCase command in _cases)
+        foreach (var command in _cases)
         {
             if (command.Expression.Evaluate())
+            {
                 return command.Next;
+            }
         }
 
         // no matching case - if default go to its nop else
@@ -51,20 +55,13 @@ internal class CommandSwitch() : CommandBase(CommandTypes.Switch)
         _cases.ForEach(c => c.Jump = es);
 
         // default
-        if (_default != null)
-            _default.Jump = es;
+        _default?.Jump = es;
 
         // end switch
         _endSwitch = es;
     }
 
-    internal void AddCase(CommandCase command)
-    {
-        _cases.Add(command);
-    }
+    internal void AddCase(CommandCase command) => _cases.Add(command);
 
-    internal void AddDefault(CommandCase command)
-    {
-        _default = command;
-    }
+    internal void AddDefault(CommandCase command) => _default = command;
 }

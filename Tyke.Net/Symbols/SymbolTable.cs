@@ -9,6 +9,14 @@ internal static class SymbolTable
 {
     private static readonly Dictionary<string, SymbolBase> _symbols = new();
 
+    // a test hook - used to clear the global symbol table
+    // - a bit hacky but needed unless I make the symbol table
+    //   an object that is passed around
+    internal static void Clear()
+    {
+        _symbols.Clear();
+    }
+
     internal static T GetActionable<T>(string name) where T: class, IAction
     {
         var section = GetSymbol<SymbolBase>(name);
@@ -50,16 +58,16 @@ internal static class SymbolTable
         }
 
         // valid name - starts with alphabetic
-        if (!Char.IsLetter(name[0]))
+        if (!char.IsLetter(name[0]))
         {
             Errors.Error.ReportError("Invalid symbol name, must start with a letter");
             return;
         }
 
         // must be all letters, underscores, hyphens, and numbers
-        foreach (char c in name)
+        foreach (var c in name)
         {
-            if (Char.IsLetter(c) || Char.IsDigit(c) || c == '_' || c == '-')
+            if (char.IsLetter(c) || char.IsDigit(c) || c == '_' || c == '-')
                 continue; // great
 
             Errors.Error.ReportError("Invalid character in symbol name: " + c);
@@ -71,9 +79,9 @@ internal static class SymbolTable
         AddSymbol(symbolBase);
     }
 
-    internal static IEnumerable<Sections.SectionBase> GetSections()
+    internal static IEnumerable<SectionBase> GetSections()
     {
-        return _symbols.Where(s => s.Value is Sections.SectionBase).Select(s => s.Value).Cast<Sections.SectionBase>();
+        return _symbols.Where(s => s.Value is SectionBase).Select(s => s.Value).Cast<SectionBase>();
     }
 
     internal static IEnumerable<Process.ProcessBase> GetProcedures()

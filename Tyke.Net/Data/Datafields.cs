@@ -4,16 +4,16 @@ internal static class Datafields
 {
     internal static void Compile()
     {
-        int start = 1;
+        var start = 1;
 
         while (true)
         {
-            string line = Parser.TykeFile.GetLine();
+            var line = Parser.TykeFile.GetLine();
 
-            if (line.ToLower() == "end")
+            if (line.ToLowerInvariant() == "end")
                 break;
 
-            DatafieldBase datafield = CompileDatafield(line, start);
+            var datafield = CompileDatafield(line, start);
 
             if (datafield != null)
                 start = datafield.Offset + 1 +  datafield.Length;

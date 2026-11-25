@@ -1,12 +1,15 @@
-﻿namespace Tyke.Net.Process;
+﻿using JetBrains.Annotations;
 
+namespace Tyke.Net.Process;
+
+[UsedImplicitly]
 [Command("case")]
 [Command("default")]
-internal class CommandCase() : CommandBranchBase(CommandTypes.Case)
+internal class CommandCase : CommandBranchBase
 {
     internal override void ParseCommand(Parser.Tokeniser stack)
     {
-        bool isDefault = false;
+        var isDefault = false;
 
         // first must be 'case' - unless it's default
         // in which case it's the only word
@@ -30,13 +33,7 @@ internal class CommandCase() : CommandBranchBase(CommandTypes.Case)
 
         // top of stack must be a switch
         var x = Symbols.ProcessStack.Peek();
-        if (x == null)
-        {
-            Errors.Error.SyntaxError("No switch command found");
-            return;
-        }
-
-        if (x.CommandType != CommandTypes.Switch)
+        if (x is not CommandSwitch @switch )
         {
             Errors.Error.SyntaxError("No switch command found");
             return;
@@ -46,15 +43,15 @@ internal class CommandCase() : CommandBranchBase(CommandTypes.Case)
         // if 'default' make default
         if (isDefault)
         {
-            (x as CommandSwitch).AddDefault(this);
+            @switch.AddDefault(this);
         }
         else
         {
-            (x as CommandSwitch).AddCase(this);
+            @switch.AddCase(this);
         }
     }
 
-    internal Expressions.ExpressionBase Expression => base.Expression;
+    internal new Expressions.ExpressionBase Expression => base.Expression;
 
     internal override CommandBase Process()
     {

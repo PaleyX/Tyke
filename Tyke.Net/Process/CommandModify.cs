@@ -1,14 +1,17 @@
-﻿namespace Tyke.Net.Process;
+﻿using JetBrains.Annotations;
 
+namespace Tyke.Net.Process;
+
+[UsedImplicitly]
 [Command("modify")]
-internal class CommandModify() : CommandBase(CommandTypes.Modify)
+internal class CommandModify : CommandBase
 {
     private Data.DatafieldAlpha _datafield;
     private Misc.StringModifier _modifier;
 
     internal override CommandBase Process()
     {
-        string text = _datafield.ToString();
+        var text = _datafield.ToString();
         text = _modifier.Modify(text);
         _datafield.Set(text);
 

@@ -1,6 +1,8 @@
-﻿namespace Tyke.Net.ListKnife;
+﻿using System;
 
-internal class AttributeValuePair
+namespace Tyke.Net.ListKnife;
+
+internal sealed class AttributeValuePair : IEquatable<AttributeValuePair>
 {
     internal AttributeValuePair(int attributeId, string value)
     {
@@ -13,14 +15,21 @@ internal class AttributeValuePair
 
     public override int GetHashCode()
     {
-        return AttributeId.GetHashCode() ^ Value.GetHashCode();
+        return HashCode.Combine(AttributeId, Value);
     }
 
     public override bool Equals(object obj)
     {
-        if (obj is not AttributeValuePair x)
-            return false;
+        if (obj is null) return false;
+        if (ReferenceEquals(this, obj)) return true;
+        if (obj.GetType() != GetType()) return false;
+        return Equals((AttributeValuePair)obj);
+    }
 
-        return x.AttributeId == AttributeId && x.Value == Value;
+    public bool Equals(AttributeValuePair other)
+    {
+        if (other is null) return false;
+        if (ReferenceEquals(this, other)) return true;
+        return AttributeId == other.AttributeId && Value == other.Value;
     }
 }

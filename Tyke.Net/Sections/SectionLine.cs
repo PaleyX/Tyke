@@ -8,7 +8,7 @@ internal class SectionLine
 
     internal SectionLine(string lhs, Action<string> callback, bool required = true, bool oneOnly = true)
     {
-        this.Lhs = lhs;
+        Lhs = lhs;
         _callback = callback;
         Required = required;
         OneOnly = oneOnly;

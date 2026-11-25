@@ -1,9 +1,11 @@
-﻿using Tyke.Net.Sections;
+﻿using JetBrains.Annotations;
+using Tyke.Net.Sections;
 
 namespace Tyke.Net.Process;
 
+[UsedImplicitly]
 [Command("write")]
-internal class CommandWrite() : CommandBase(CommandTypes.Write)
+internal class CommandWrite : CommandBase
 {
     private IActionWrite _writable;
 

@@ -1,12 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Data;
+﻿using JetBrains.Annotations;
 using Microsoft.Data.SqlClient;
+using System;
+using System.Collections.Generic;
+using System.Data;
 using System.Diagnostics;
+using System.Linq;
 
 namespace Tyke.Net.Sections;
 
+[UsedImplicitly]
 [Section("sqlreader")]
 internal class SectionSqlReader : SectionBase, ISectionBlock, IActionOpen, IActionRead, IActionClose
 {
@@ -62,7 +64,7 @@ internal class SectionSqlReader : SectionBase, ISectionBlock, IActionOpen, IActi
     {
         try
         {
-            bool result = _reader.Read();
+            var result = _reader.Read();
             if (result)
             {
                 ++_read;
@@ -145,7 +147,7 @@ internal class SectionSqlReader : SectionBase, ISectionBlock, IActionOpen, IActi
         stack.VerifyAndPop("to");
 
         // parameter name - starts with @ 
-        string parameter = stack.Pop();
+        var parameter = stack.Pop();
 
         if (!parameter.StartsWith("@"))
             Errors.Error.SyntaxError("Parameter name must start with '@'");
@@ -157,8 +159,8 @@ internal class SectionSqlReader : SectionBase, ISectionBlock, IActionOpen, IActi
 
     #region ISectionBlock
     public void ProcessBlockLine(string line)
-    {
-        Tuple<string, string> pair = Tools.StringTools.SplitOnEquals(line);
+    {  
+        var pair = Tools.StringTools.SplitOnEquals(line);
 
         // first is data field
         var datafield = Symbols.SymbolTable.GetSymbol<Data.DatafieldBase>(pair.Item1);
@@ -187,12 +189,7 @@ internal class SectionSqlReader : SectionBase, ISectionBlock, IActionOpen, IActi
 
                 // find column
                 var map = _columns.FirstOrDefault(c => string.Compare(c.MappedTo, name, true) == 0);
-                if (map != null)
-                {
-                    map.SetMapping(ordinal, size, type);
-                }
-
-                //Console.WriteLine("{0} = Ordinal = {1}, size = {2}, type = {3}", name, ordinal, size, type);
+                map?.SetMapping(ordinal, size, type);
             }
         }
         catch (Exception e)
@@ -201,11 +198,11 @@ internal class SectionSqlReader : SectionBase, ISectionBlock, IActionOpen, IActi
         }
 
         // any not mapped
-        if (_columns.Count(c => c.IsMapped == false) > 0)
+        if (_columns.Count(c => !c.IsMapped) > 0)
         {
             Errors.Error.NonTerminatingRuntimeError("Unmapped column(s) found opening SqlReader: {0}", Name);
 
-            foreach (var column in _columns.Where(c => c.IsMapped == false))
+            foreach (var column in _columns.Where(c => !c.IsMapped))
             {
                 Errors.Error.NonTerminatingRuntimeError("No mapping found for {0}", column.MappedTo);
             }
@@ -217,7 +214,9 @@ internal class SectionSqlReader : SectionBase, ISectionBlock, IActionOpen, IActi
     private void SetDatafields()
     {
         foreach (var column in _columns)
+        {
             column.Set(_reader);
+        }
     }
 
     private void AddParameters()

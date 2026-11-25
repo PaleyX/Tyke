@@ -89,7 +89,7 @@ internal class DatafieldBinary : DatafieldBase
     {
         try
         {
-            uint number = uint.Parse(value);
+            var number = uint.Parse(value);
             Set(number);
         }
         catch(Exception e)
@@ -108,7 +108,7 @@ internal class DatafieldBinary : DatafieldBase
         var x = datafield as DatafieldAlpha;
         Debug.Assert(x != null);
 
-        string value = ToString();
+        var value = ToString();
 
         if (value.Length > x.Length)
             Errors.Error.ReportError("Overflow casting binary to alpha");
@@ -135,19 +135,13 @@ internal class DatafieldBinary : DatafieldBase
 
     internal bool IsMax()
     {
-        switch (Length)
+        return Length switch
         {
-            case 4:
-                return GetDWord() == uint.MaxValue;
-            case 2:
-                return ((ushort)GetDWord()) == ushort.MaxValue;
-        }
-
-        throw new TykeRunTimeException("Unknown length in IsMax())");
+            4 => GetDWord() == uint.MaxValue,
+            2 => ((ushort)GetDWord()) == ushort.MaxValue,
+            _ => throw new TykeRunTimeException("Unknown length in IsMax())")
+        };
     }
 
-    public override string ToString()
-    {
-        return GetDWord().ToString();
-    }
+    public override string ToString() => GetDWord().ToString();
 }

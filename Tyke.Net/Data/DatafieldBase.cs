@@ -16,7 +16,7 @@ internal abstract class DatafieldBase : Symbols.SymbolBase
         Offset = 1,
         Length = 2,
         Type   = 4
-    };
+    }
 
     internal enum DatafieldTypes
     {

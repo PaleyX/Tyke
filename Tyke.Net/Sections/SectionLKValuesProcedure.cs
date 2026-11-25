@@ -1,5 +1,8 @@
-﻿namespace Tyke.Net.Sections;
+﻿using JetBrains.Annotations;
 
+namespace Tyke.Net.Sections;
+
+[UsedImplicitly]
 [Section("listknife values procedure")]
 internal class SectionLkValuesProcedure : SectionLkValuesBase, Symbols.ILinkable
 {

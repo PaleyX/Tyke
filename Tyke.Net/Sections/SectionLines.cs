@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 
 namespace Tyke.Net.Sections;
@@ -21,24 +20,24 @@ internal class SectionLines
         {
             string line = Parser.TykeFile.GetLine();
 
-            if(line.ToLower() == "end")
+            if(line.ToLowerInvariant() == "end")
                 break;
 
             // start of a begin...end block?
-            if (line.ToLower() == "begin")
+            if (line.ToLowerInvariant() == "begin")
             {
                 ParseBlock();
                 continue;
             }
 
             //TODO: make sure line doesn't end with '=' so "Name="
-
-            Tuple<string, string> pair = Tools.StringTools.SplitOnEquals(line);
-            if (pair == null)
+            
+            var pair = Tools.StringTools.SplitOnEquals(line);
+            if (pair == default)
                 continue;
 
-            string lhs = pair.Item1;
-            string rhs = pair.Item2;
+            var lhs = pair.Item1;
+            var rhs = pair.Item2;
 
             //Console.WriteLine("[{0}]", lhs);
             //Console.WriteLine("[{0}]", rhs);
@@ -71,9 +70,7 @@ internal class SectionLines
 
     private void ParseBlock()
     {
-        var block = _section as ISectionBlock;
-
-        if (block == null)
+        if (_section is not ISectionBlock block)
         {
             Errors.Error.SyntaxError("Section does not support begin...end block");
             return;
@@ -83,7 +80,7 @@ internal class SectionLines
         {
             var line = Parser.TykeFile.GetLine();
 
-            if (line.ToLower() == "end")
+            if (line.ToLowerInvariant() == "end")
                 break;
 
             block.ProcessBlockLine(line);

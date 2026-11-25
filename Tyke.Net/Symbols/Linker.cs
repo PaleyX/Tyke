@@ -22,16 +22,16 @@ internal static class Linker
         var linkables = new List<ILinkable>();
 
         // from main process
-        linkables.AddRange(mainProcess.GetCommands().Where(c => c is ILinkable).Cast<ILinkable>());
+        linkables.AddRange(mainProcess.GetCommands().OfType<ILinkable>());
 
         // from procedures
         foreach(var procedure in SymbolTable.GetProcedures())
         {
-            linkables.AddRange(procedure.GetCommands().Where(c => c is ILinkable).Cast<ILinkable>());
+            linkables.AddRange(procedure.GetCommands().OfType<ILinkable>());
         }
 
         // from sections
-        linkables.AddRange(SymbolTable.GetSections().Where(s => s is ILinkable).Cast<ILinkable>());
+        linkables.AddRange(SymbolTable.GetSections().OfType<ILinkable>());
   
         // do the linking
         foreach (var linkable in linkables)

@@ -1,9 +1,11 @@
-﻿using System;
+﻿using JetBrains.Annotations;
 using Microsoft.Data.SqlClient;
+using System;
 using System.Diagnostics;
 
 namespace Tyke.Net.Sections;
 
+[UsedImplicitly]
 [Section("sqldatabase")]
 internal class SectionSqlDatabase : SectionBase
 {

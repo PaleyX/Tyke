@@ -93,21 +93,21 @@ internal static class StringTools
         return result;
     }
 
-    internal static Tuple<string, string> SplitOnEquals(string line, bool reportError = true)
+    internal static (string, string) SplitOnEquals(string line, bool reportError = true)
     {
         // split on '='
-        int pos = line.IndexOf("=");
+        var pos = line.IndexOf("=");
         if (pos < 0)
         {
             if(reportError)
                 Errors.Error.ReportError("Syntax error, expected '='");
-            return null;
+            return default;
         }
 
-        string lhs = line.Substring(0, pos).Trim();
-        string rhs = line.Substring(pos + 1).Trim();
+        var lhs = line[..pos].Trim();
+        var rhs = line[(pos + 1)..].Trim();
 
-        return new Tuple<string, string>(lhs, rhs);
+        return (lhs, rhs);
     }
 
     internal static bool ValidateNonEmpty(string text)

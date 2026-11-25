@@ -1,9 +1,11 @@
-﻿using Tyke.Net.Sections;
+﻿using JetBrains.Annotations;
+using Tyke.Net.Sections;
 
 namespace Tyke.Net.Process;
 
+[UsedImplicitly]
 [Command("put")]
-internal class CommandPut() : CommandBase(CommandTypes.Put)
+internal class CommandPut : CommandBase
 {
     private IActionPut _putable;
 

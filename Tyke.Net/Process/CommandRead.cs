@@ -1,9 +1,11 @@
-﻿using Tyke.Net.Sections;
+﻿using JetBrains.Annotations;
+using Tyke.Net.Sections;
 
 namespace Tyke.Net.Process;
 
+[UsedImplicitly]
 [Command("read")]
-internal class CommandRead() : CommandBase(CommandTypes.Read)
+internal class CommandRead : CommandBase
 {
     private IActionRead _readable;
 

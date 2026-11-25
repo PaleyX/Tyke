@@ -1,9 +1,11 @@
-﻿using Tyke.Net.Sections;
+﻿using JetBrains.Annotations;
+using Tyke.Net.Sections;
 
 namespace Tyke.Net.Process;
 
+[UsedImplicitly]
 [Command("open")]
-internal class CommandOpen() : CommandBase(CommandTypes.Open)
+internal class CommandOpen : CommandBase
 {
     private IActionOpen _openable;
 

@@ -1,7 +1,10 @@
-﻿namespace Tyke.Net.Process;
+﻿using JetBrains.Annotations;
 
+namespace Tyke.Net.Process;
+
+[UsedImplicitly]
 [Command("endif")]
-internal class CommandEndif() : CommandBase(CommandTypes.Endif)
+internal class CommandEndif : CommandBase
 {
     internal override void ParseCommand(Parser.Tokeniser stack)
     {
@@ -16,7 +19,7 @@ internal class CommandEndif() : CommandBase(CommandTypes.Endif)
 
         while (Symbols.ProcessStack.Pop() is { } x)
         {
-            if (x.CommandType is CommandTypes.If or CommandTypes.IfNot)
+            if (x is CommandIf or CommandIfNot)
             {
                 var y = x as CommandBranchBase;
                 if (commandElse == null)
@@ -34,7 +37,7 @@ internal class CommandEndif() : CommandBase(CommandTypes.Endif)
                 gotIf = true;
                 break;
             }
-            if (x.CommandType == CommandTypes.Else)
+            if (x is CommandElse)
             {
                 if (commandElse != null)
                     Errors.Error.SyntaxError("Multiple else defined");

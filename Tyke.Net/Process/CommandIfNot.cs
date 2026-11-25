@@ -1,7 +1,10 @@
-﻿namespace Tyke.Net.Process;
+﻿using JetBrains.Annotations;
 
+namespace Tyke.Net.Process;
+
+[UsedImplicitly]
 [Command("ifnot")]
-internal class CommandIfNot() : CommandBranchBase(CommandTypes.IfNot)
+internal class CommandIfNot : CommandBranchBase
 {
     internal override void ParseCommand(Parser.Tokeniser stack)
     {

@@ -1,10 +1,12 @@
-﻿using System;
+﻿using JetBrains.Annotations;
+using System;
 using System.Diagnostics;
 
 namespace Tyke.Net.Process;
 
+[UsedImplicitly]
 [Command("move")]
-internal class CommandMove() : CommandBase(CommandTypes.Move)
+internal class CommandMove : CommandBase
 {
     private Data.OperandBase _source;
     private Data.DatafieldBase _object;
