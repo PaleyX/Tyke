@@ -141,8 +141,7 @@ internal class CommandBinaryAssign : CommandBase
             }
 
             // must be operator
-            var op = item as BinaryAssignOperator;
-            if (op == null)
+            if (item is not BinaryAssignOperator op)
             {
                 Errors.Error.SyntaxError("Bad operator order");
                 continue;
@@ -214,7 +213,7 @@ internal class CommandBinaryAssign : CommandBase
         if (element.Length != 1)
             return false;
 
-        char c = element[0];
+        var c = element[0];
 
         if (Parser.Tokeniser.IsMathOperator(c))
             return true;

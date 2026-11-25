@@ -64,7 +64,7 @@ internal class SectionSqlReader : SectionBase, ISectionBlock, IActionOpen, IActi
     {
         try
         {
-            bool result = _reader.Read();
+            var result = _reader.Read();
             if (result)
             {
                 ++_read;
@@ -147,7 +147,7 @@ internal class SectionSqlReader : SectionBase, ISectionBlock, IActionOpen, IActi
         stack.VerifyAndPop("to");
 
         // parameter name - starts with @ 
-        string parameter = stack.Pop();
+        var parameter = stack.Pop();
 
         if (!parameter.StartsWith("@"))
             Errors.Error.SyntaxError("Parameter name must start with '@'");

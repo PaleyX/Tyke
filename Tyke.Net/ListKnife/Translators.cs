@@ -31,7 +31,7 @@ internal class Translators : IDisposable
             writer.Write(temp); // blank ??? Why ???
 
             // TODO: isn't this just copying the file? 
-            for (int i = 0; i < reader.BaseStream.Length / sizeof(Int32); ++i)
+            for (int i = 0; i < reader.BaseStream.Length / sizeof(int); ++i)
             {
                 writer.Write(reader.ReadInt32());
             }

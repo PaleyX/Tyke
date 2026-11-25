@@ -4,7 +4,7 @@ internal static class Datafields
 {
     internal static void Compile()
     {
-        int start = 1;
+        var start = 1;
 
         while (true)
         {

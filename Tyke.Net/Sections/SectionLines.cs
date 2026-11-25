@@ -70,9 +70,7 @@ internal class SectionLines
 
     private void ParseBlock()
     {
-        var block = _section as ISectionBlock;
-
-        if (block == null)
+        if (_section is not ISectionBlock block)
         {
             Errors.Error.SyntaxError("Section does not support begin...end block");
             return;
@@ -82,7 +80,7 @@ internal class SectionLines
         {
             var line = Parser.TykeFile.GetLine();
 
-            if (line.ToLower() == "end")
+            if (line.ToLowerInvariant() == "end")
                 break;
 
             block.ProcessBlockLine(line);

@@ -58,16 +58,16 @@ internal static class SymbolTable
         }
 
         // valid name - starts with alphabetic
-        if (!Char.IsLetter(name[0]))
+        if (!char.IsLetter(name[0]))
         {
             Errors.Error.ReportError("Invalid symbol name, must start with a letter");
             return;
         }
 
         // must be all letters, underscores, hyphens, and numbers
-        foreach (char c in name)
+        foreach (var c in name)
         {
-            if (Char.IsLetter(c) || Char.IsDigit(c) || c == '_' || c == '-')
+            if (char.IsLetter(c) || char.IsDigit(c) || c == '_' || c == '-')
                 continue; // great
 
             Errors.Error.ReportError("Invalid character in symbol name: " + c);

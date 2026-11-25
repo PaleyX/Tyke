@@ -9,7 +9,7 @@ internal class CommandCase : CommandBranchBase
 {
     internal override void ParseCommand(Parser.Tokeniser stack)
     {
-        bool isDefault = false;
+        var isDefault = false;
 
         // first must be 'case' - unless it's default
         // in which case it's the only word

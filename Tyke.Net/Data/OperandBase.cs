@@ -51,7 +51,7 @@ internal abstract class OperandBase
 
     public bool Valid()  
     {
-        return DataType == DataTypes.Datafield || DataType == DataTypes.Constant;
+        return DataType is DataTypes.Datafield or DataTypes.Constant;
     }
 
     //public bool IsCompatible(DatafieldBase datafield)

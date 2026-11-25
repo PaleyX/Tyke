@@ -148,7 +148,7 @@ internal class LkToken
 
     private int CompressIt(byte[] pin, byte[] pout)
     {
-        int sequence = 0;
+        var sequence = 0;
 
         // get used length
         int i = pin.Length - 1;

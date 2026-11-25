@@ -55,20 +55,13 @@ internal class CommandSwitch : CommandBase
         _cases.ForEach(c => c.Jump = es);
 
         // default
-        if (_default != null)
-            _default.Jump = es;
+        _default?.Jump = es;
 
         // end switch
         _endSwitch = es;
     }
 
-    internal void AddCase(CommandCase command)
-    {
-        _cases.Add(command);
-    }
+    internal void AddCase(CommandCase command) => _cases.Add(command);
 
-    internal void AddDefault(CommandCase command)
-    {
-        _default = command;
-    }
+    internal void AddDefault(CommandCase command) => _default = command;
 }

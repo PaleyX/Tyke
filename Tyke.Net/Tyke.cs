@@ -142,7 +142,7 @@ internal static class Tyke
 
         watch.Stop();
 
-        TimeSpan ts = watch.Elapsed;
+        var ts = watch.Elapsed;
         var elapsedTime = $"{ts.Hours:00}:{ts.Minutes:00}:{ts.Seconds:00}.{ts.Milliseconds / 10:00}";
         Console.WriteLine("RunTime " + elapsedTime);
 
