@@ -27,7 +27,7 @@ public class LoopTests
 
             Assert.Equal(0, process.ExitCode);
             Assert.Contains($"Result: [{result}]", stdout);
-            Assert.True(string.IsNullOrWhiteSpace(stderr));
+            Assert.True(string.IsNullOrWhiteSpace(stderr), "StdErr not empty");
         }
         finally
         {
