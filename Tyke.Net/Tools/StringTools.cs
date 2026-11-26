@@ -55,19 +55,17 @@ internal static class StringTools
         // some standard checks first to avoid exception throwing of ChangeType
         if (typeof(T) == typeof(uint))
         {
-            uint result;
-            return uint.TryParse(s, out result);
+            return uint.TryParse(s, out _);
         }
 
         if (typeof(T) == typeof(ushort))
         {
-            ushort result;
-            return ushort.TryParse(s, out result);
+            return ushort.TryParse(s, out _);
         }
 
         try
         {
-            var x = (T)System.Convert.ChangeType(s, typeof(T));
+            _ = (T)System.Convert.ChangeType(s, typeof(T));
         }
         catch
         {
@@ -78,7 +76,7 @@ internal static class StringTools
 
     internal static T Convert<T>(string s, bool showError = true) where T : struct
     {
-        T result = default(T);
+        var result = default(T);
 
         try
         {
