@@ -50,7 +50,6 @@ internal class SectionLkFilter : SectionBase, ISectionBlock, IActionPut
         int result = 0;
         foreach (var datafield in _fields)
         {
-            var x = datafield.ToString();
             result = datafield.CompareWithBuffer(_buffer, offset);
             if (result != 0)
                 break;

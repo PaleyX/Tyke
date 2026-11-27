@@ -53,16 +53,16 @@ internal class LkToken
         // move to end of data file
         _offset = writer.Seek(0, SeekOrigin.End);
 
-        foreach (long offset in _offsets)
+        foreach (var offset in _offsets)
         {
             reader.BaseStream.Seek(offset, SeekOrigin.Begin);
 
             // read header
-            Int32 valueId = reader.ReadInt32();
-            Int32 length = reader.ReadInt32();
-            Int32 urnStart = reader.ReadInt32();
-            Int32 urnEnd = reader.ReadInt32();
-            Int32 uncompressedLength = reader.ReadInt32();
+            var valueId = reader.ReadInt32();
+            var length = reader.ReadInt32();
+            var urnStart = reader.ReadInt32();
+            var urnEnd = reader.ReadInt32();
+            var uncompressedLength = reader.ReadInt32();
 
             // write header 
             writer.Write(valueId);
@@ -73,14 +73,14 @@ internal class LkToken
             writer.Flush();
 
             // Buffer
-            byte[] buffer = reader.ReadBytes(length);
+            var buffer = reader.ReadBytes(length);
             if (buffer.Length != length)
                 throw new ApplicationException("Bad read appending data");
             writer.Write(buffer);
         }
     }
 
-    internal void DumpBuffer()
+    private void DumpBuffer()
     {
         ++_bufferTally;
 

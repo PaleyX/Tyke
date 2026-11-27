@@ -43,7 +43,7 @@ internal class SectionTokenizer : SectionBase, IActionPut, IActionGet
     {
         ++_put;
             
-        string s = _datafield.ToString();
+        var s = _datafield.ToString();
 
         if (_skipLeadingWhitespace)
             s = s.TrimStart();
@@ -54,7 +54,6 @@ internal class SectionTokenizer : SectionBase, IActionPut, IActionGet
             _data = new Stack<string>(s.Split(_separators, StringSplitOptions.RemoveEmptyEntries).Reverse());
 
         Expressions.Indicators.IsEmpty = false;
-
     }
 
     public void Get()

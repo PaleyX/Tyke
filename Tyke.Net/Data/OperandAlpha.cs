@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Diagnostics;
 
 namespace Tyke.Net.Data;
 
@@ -52,9 +53,12 @@ internal class OperandAlpha : OperandBase
 
     private int Compare(DatafieldBase datafield)
     {
-        Debug.Assert(datafield is DatafieldAlpha);
+        if (datafield is DatafieldAlpha alpha)
+        {
+            return string.Compare(alpha.ToString(), ToString(), StringComparison.Ordinal);
+        }
 
-        return string.Compare((datafield as DatafieldAlpha).ToString(), ToString());
+        throw new TykeRunTimeException("Expected alpha datafield as comparison");
     }
     #endregion Comparisons
 

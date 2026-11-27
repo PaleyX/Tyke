@@ -36,7 +36,7 @@ internal static class Datafields
 
         while(tokeniser.Count() > 0)
         {
-            string token = tokeniser.Pop();
+            var token = tokeniser.Pop();
 
             if (token == "/")
             {

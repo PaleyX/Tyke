@@ -94,7 +94,7 @@ internal class Tokeniser
         return @"*+-\%".Contains(c);
     }
 
-    internal static bool IsStdBreak(char c)
+    private static bool IsStdBreak(char c)
     {
         return "/,.:()".Contains(c);
     }

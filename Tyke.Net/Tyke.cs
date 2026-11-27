@@ -5,7 +5,7 @@ namespace Tyke.Net;
 
 internal static class Tyke
 {
-    internal static Context Context = new Context();
+    internal static Context Context = new();
 
     private static Process.Process _process;
 

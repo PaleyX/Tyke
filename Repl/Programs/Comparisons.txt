@@ -1,0 +1,15 @@
+workspace
+	name = work
+	length = 1024
+end
+datafields
+	w-alpha = 1 / 4 / a / / "AAAA"
+end
+process
+	if w-alpha > "BBBB"
+		display "Hello"
+	endif
+	if w-alpha < "BBBB"
+		display "goodbye"
+	endif
+end
