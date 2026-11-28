@@ -9,10 +9,12 @@
 
   <ItemGroup>
     <None Remove="Programs\Comparisons.txt" />
+    <None Remove="Programs\Numbers.txt" />
   </ItemGroup>
 
   <ItemGroup>
     <EmbeddedResource Include="Programs\Comparisons.txt" />
+    <EmbeddedResource Include="Programs\Numbers.txt" />
   </ItemGroup>
 
 </Project>

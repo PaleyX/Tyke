@@ -59,7 +59,7 @@ internal abstract class ProcessBase : Symbols.SymbolBase
         return _commands;
     }
 
-    private CommandBase ParseLeadingDatafieldStatement(Parser.Tokeniser stack)
+    private static CommandBase ParseLeadingDatafieldStatement(Parser.Tokeniser stack)
     {
         // must be at least 3 tokens
         if (stack.Count() < 3)

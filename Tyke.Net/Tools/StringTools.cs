@@ -35,11 +35,9 @@ internal static class StringTools
         {
             return text.Substring(1, text.Length - 2);
         }
-        else
-        {
-            Errors.Error.SyntaxError("Expected quoted string");
-            return string.Empty;
-        }
+
+        Errors.Error.SyntaxError("Expected quoted string");
+        return string.Empty;
     }
 
     internal static bool IsQuotedString(string text)

@@ -46,8 +46,7 @@ internal class LkToken
         if (_buffer.AddUrn(_database.TempUrn))
             ++_tally;
     }
-
-
+    
     internal void AppendData(BinaryReader reader, BinaryWriter writer)
     {
         // move to end of data file

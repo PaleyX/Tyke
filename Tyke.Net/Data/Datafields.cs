@@ -1,7 +1,20 @@
-﻿namespace Tyke.Net.Data;
+﻿using System;
+
+namespace Tyke.Net.Data;
 
 internal static class Datafields
 {
+    private enum DatafieldElement
+    {
+        Name = 1,
+        Equals = 2,
+        Offset = 3,
+        Length = 4,
+        Type = 5,
+        Unused = 6,
+        Constant = 7
+    }
+
     internal static void Compile()
     {
         var start = 1;
@@ -10,8 +23,10 @@ internal static class Datafields
         {
             var line = Parser.TykeFile.GetLine();
 
-            if (line.ToLowerInvariant() == "end")
+            if (string.Equals(line, "end", StringComparison.OrdinalIgnoreCase))
+            {
                 break;
+            }
 
             var datafield = CompileDatafield(line, start);
 
@@ -33,7 +48,7 @@ internal static class Datafields
         int index = 1;
         bool gotType = false;
         bool gotConst = false;
-
+        
         while(tokeniser.Count() > 0)
         {
             var token = tokeniser.Pop();
@@ -44,81 +59,82 @@ internal static class Datafields
                 continue;
             }
 
-            switch(index)
+            var element = (DatafieldElement)index;
+
+            switch(element)
             {
-                // datafield name
-                case 1:
-                    if(!string.IsNullOrWhiteSpace(name))
-                        Errors.Error.SyntaxError();
-                    name = token;
-                    ++index;
+                case DatafieldElement.Name:
+                    {
+                        if (!string.IsNullOrWhiteSpace(name))
+                            Errors.Error.SyntaxError();
+                        name = token;
+                        ++index;
+                    }
                     break;
-                // must be '='
-                case 2:
-                    if(token != "=") 
-                        Errors.Error.SyntaxError();
-                    ++index;
+                case DatafieldElement.Equals:
+                    {
+                        if (token != "=")
+                            Errors.Error.SyntaxError();
+                        ++index;
+                    }
                     break;
-                // offset
-                case 3:
-                    if(!string.IsNullOrWhiteSpace(offset)) 
-                        Errors.Error.SyntaxError();
-                    offset = token == "*" ? start.ToString() : token;
+                case DatafieldElement.Offset:
+                    {
+                        if (!string.IsNullOrWhiteSpace(offset))
+                            Errors.Error.SyntaxError();
+                        offset = token == "*" ? start.ToString() : token;
+                    }
                     break;
-                // length
-                case 4:
-                    if(!string.IsNullOrWhiteSpace(length))
-                        Errors.Error.SyntaxError();
-                    length = token;
+                case DatafieldElement.Length:
+                    {
+                        if (!string.IsNullOrWhiteSpace(length))
+                            Errors.Error.SyntaxError();
+                        length = token;
+                    }
                     break;
-                // type
-                case 5:
-                    if(gotType) 
-                        Errors.Error.SyntaxError();
-                    type = token;
-                    gotType = true;
+                case DatafieldElement.Type:
+                    {
+                        if (gotType)
+                            Errors.Error.SyntaxError();
+                        type = token;
+                        gotType = true;
+                    }
                     break;
-                // unused
-                case 6:
+                case DatafieldElement.Unused:
                     Errors.Error.SyntaxError("Unused element");
                     break;
-                // const
-                case 7:
-                    if(!string.IsNullOrWhiteSpace(constant))
-                        Errors.Error.SyntaxError();
-                    constant = token;
-                    gotConst = true;
+                case DatafieldElement.Constant:
+                    {
+                        if (!string.IsNullOrWhiteSpace(constant))
+                            Errors.Error.SyntaxError();
+                        constant = token;
+                        gotConst = true;
+                    }
                     break;
-                // what?
                 default:
                     Errors.Error.SyntaxError("Unknown datafield element: " + token);
                     break;
             }
         }
 
-        DatafieldBase datafield = null;
-
-        switch (type)
+        DatafieldBase datafield = type switch
         {
-            case "a":
-                datafield = new DatafieldAlpha(DataBuffer.CurrentBuffer, name, offset, length);
-                break;
-            case "b":
-                datafield = new DatafieldBinary(DataBuffer.CurrentBuffer, name, offset, length);
-                break;
-            default:
-                Errors.Error.SyntaxError("Unsupported field type [{0}]", type);
-                break;
-        }
+            "a" => new DatafieldAlpha(DataBuffer.CurrentBuffer, name, offset, length),
+            "b" => new DatafieldBinary(DataBuffer.CurrentBuffer, name, offset, length),
+            _ => null
+        };
 
-        // check and validate
-        if (datafield != null)
+        if (datafield is not null)
         {
             if (datafield.CheckAndValidateElements())
             {
                 if (gotConst)
                     datafield.SetConstant(constant);
             }
+        }
+        else
+        {
+            Errors.Error.SyntaxError($"Unsupported field type [{type}]");
         }
 
         return datafield;

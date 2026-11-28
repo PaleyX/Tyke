@@ -4,6 +4,7 @@ workspace
 end
 datafields
 	w-alpha = 1 / 4 / a / / "AAAA"
+	w-x = 1024 / 2
 end
 process
 	if w-alpha > "BBBB"

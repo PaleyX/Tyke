@@ -10,8 +10,7 @@ class Program
         // header
         Console.WriteLine("Tyke Control File Interpreter");
         Console.WriteLine("64 bit: {0}", Environment.Is64BitProcess.ToString());
-
-
+        
         if (!args.Any())
         {
             Console.WriteLine("No control file specified");
