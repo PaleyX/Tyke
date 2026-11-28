@@ -69,20 +69,20 @@ internal class DatafieldBinary : DatafieldBase
 
     internal void Set(uint value)
     {
-        if (Length == 4)
+        switch (Length)
         {
-            Area.Insert(value, Offset);
-            return;
+            case 4:
+                Area.Insert(value, Offset);
+                break;
+            case 2:
+            {
+                var num = Convert.ToUInt16(value);
+                Area.Insert(num, Offset);
+                break;
+            }
+            default:
+                throw new TykeRunTimeException($"Bad binary field length: {Length}");
         }
-
-        if (Length == 2)
-        {
-            var num = Convert.ToUInt16(value);
-            Area.Insert(num, Offset);
-            return;
-        }
-
-        Debug.Assert(false);
     }
 
     internal override void Set(string value)

@@ -44,7 +44,7 @@ internal class Translators : IDisposable
 
     internal void CreatePerm2Temp()
     {
-        string pathname = Path.Combine(Directory, "PermTemp.dat");
+        var pathname = Path.Combine(Directory, "PermTemp.dat");
 
         try
         {
@@ -71,9 +71,9 @@ internal class Translators : IDisposable
                                 max = temp;
 
                             // so it can handle 64 bit seeks - rest of code reall should do the same
-                            // because the tranlators won't work otherwise - the urns should be stored
+                            // because the translators won't work otherwise - the urns should be stored
                             // as 64 bit not 32 - will take up room though
-                            long seekPos = (long)temp * (long)sizeof(Int32);
+                            long seekPos = (long)temp * (long)sizeof(int);
                             long seek = writer.BaseStream.Seek(seekPos, SeekOrigin.Begin);
                             //long seek = writer.Seek(temp * sizeof(Int32), SeekOrigin.Begin);
                             Debug.Assert(seek == seekPos);

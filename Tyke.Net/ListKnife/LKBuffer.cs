@@ -34,7 +34,7 @@ internal class LkBuffer
     {
         bool result = length is >= 100 and <= 10000;
 
-        if (result == false && reportError)
+        if (!result && reportError)
             Errors.Error.ReportError("Invalid bitmap length, must be between 100 and 10,000");
 
         return result;
@@ -71,15 +71,19 @@ internal class LkBuffer
     internal int StartUrn => _startUrn;
     internal int EndUrn => _endUrn;
 
-    private int CalcStartUrn(int urn)
+    private static int CalcStartUrn(int urn)
     {
-        if (urn <= 7)
-            return 0;
+        //if (urn <= 7)
+        //    return 0;
 
-        if (urn % 8 == 0)
-            return urn;
+        //if (urn % 8 == 0)
+        //    return urn;
 
-        return urn - (urn % 8);
+        //return urn - (urn % 8);
+
+        // Round down to the nearest multiple of 8
+        // by clearing the lowest 3 bits.
+        return urn & ~7;
     }
 
     private int CalcEndUrn(int urn)

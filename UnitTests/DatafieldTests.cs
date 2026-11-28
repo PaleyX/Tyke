@@ -1,4 +1,5 @@
-﻿using Tyke.Net.Data;
+﻿using Tyke.Net;
+using Tyke.Net.Data;
 
 namespace UnitTests;
 
@@ -10,6 +11,8 @@ public class DatafieldTests
     [InlineData("4")]
     public void IncrementWorksOnBinary(string length)
     {
+        Tyke.Net.Tyke.Context = new Context { ThrowOnError = true };
+
         var dataBuffer = new DataBuffer(1024);
         var dataField = new DatafieldBinary(dataBuffer, "test", "10", length);
         dataField.SetConstant("10");

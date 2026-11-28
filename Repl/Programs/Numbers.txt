@@ -1,0 +1,17 @@
+workspace
+	name = work
+	length = 1024
+end
+datafields
+	w-u16 = 1 / 2 / b / / 0
+	w-u32 = * / 4 / b / / 0
+end
+process
+	loop
+		w-u16 = w-u16 + 1
+		w-u32 = w-u32 + 1
+		until w-u16 = 50000
+	endloop
+	display w-u16
+	display w-u32
+end

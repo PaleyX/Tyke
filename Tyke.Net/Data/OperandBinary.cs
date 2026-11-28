@@ -23,44 +23,42 @@ internal class OperandBinary : OperandBase
     #region Comparisons
     internal override bool CompareEq(DatafieldBase datafield)
     {
-        Debug.Assert(datafield is DatafieldBinary);
-
-        return (datafield as DatafieldBinary).GetDWord() == GetDWord();
+        return GetBinaryForComparison(datafield).GetDWord() == GetDWord();
     }
 
     internal override bool CompareNe(DatafieldBase datafield)
     {
-        Debug.Assert(datafield is DatafieldBinary);
-
-        return (datafield as DatafieldBinary).GetDWord() != GetDWord();
+        return GetBinaryForComparison(datafield).GetDWord() != GetDWord();
     }
 
     internal override bool CompareGt(DatafieldBase datafield)
     {
-        Debug.Assert(datafield is DatafieldBinary);
-
-        return (datafield as DatafieldBinary).GetDWord() > GetDWord();
+        return GetBinaryForComparison(datafield).GetDWord() > GetDWord();
     }
 
     internal override bool CompareGe(DatafieldBase datafield)
     {
-        Debug.Assert(datafield is DatafieldBinary);
-
-        return (datafield as DatafieldBinary).GetDWord() >= GetDWord();
+        return GetBinaryForComparison(datafield).GetDWord() >= GetDWord();
     }
 
     internal override bool CompareLe(DatafieldBase datafield)
     {
-        Debug.Assert(datafield is DatafieldBinary);
-
-        return (datafield as DatafieldBinary).GetDWord() <= GetDWord();
+        return GetBinaryForComparison(datafield).GetDWord() <= GetDWord();
     }
 
     internal override bool CompareLt(DatafieldBase datafield)
     {
-        Debug.Assert(datafield is DatafieldBinary);
+        return GetBinaryForComparison(datafield).GetDWord() < GetDWord();
+    }
 
-        return (datafield as DatafieldBinary).GetDWord() < GetDWord();
+    private static DatafieldBinary GetBinaryForComparison(DatafieldBase datafield)
+    {
+        if (datafield is DatafieldBinary binary)
+        {
+            return binary;
+        }
+
+        throw new TykeRunTimeException("Expected binary datafield for comparison");
     }
     #endregion Comparisons
 

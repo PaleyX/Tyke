@@ -1,7 +1,7 @@
 ﻿namespace Tyke.Net.Sections;
 
 // marker interface - acceptable when used as a generic constraint
-internal interface IAction { }
+internal interface IAction;
 
 internal interface IActionPut : IAction
 {

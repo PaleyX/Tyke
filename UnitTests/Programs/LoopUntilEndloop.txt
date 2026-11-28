@@ -1,0 +1,24 @@
+workspace
+    name = work
+    length = 1024
+end
+datafields
+    w-value = 1 / 4 / b / / [VALUE]
+    w-result = * / 10
+    w-i = * / 4 / b / / 0
+end
+process
+    loop
+        w-result = "a"
+        until w-value = 100
+        w-result = "b"
+        until w-value = 50
+        w-result = "c"
+        until w-value = 1
+        w-result = "d"
+        inc w-i
+        until w-i = 200
+        w-result = "Oops"
+    endloop
+  	display "Result: [",w-result,"]"
+end

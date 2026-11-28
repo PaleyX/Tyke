@@ -8,7 +8,7 @@ internal class CommandEndif : CommandBase
 {
     internal override void ParseCommand(Parser.Tokeniser stack)
     {
-        bool gotIf = false;
+        var gotIf = false;
         CommandBase commandElse = null;
 
         // first and only word must be endif
@@ -16,12 +16,11 @@ internal class CommandEndif : CommandBase
         stack.VerifyAndPop("endif");
 
         // is there an if
-
         while (Symbols.ProcessStack.Pop() is { } x)
         {
             if (x is CommandIf or CommandIfNot)
             {
-                var y = x as CommandBranchBase;
+                var y = (CommandBranchBase)x;
                 if (commandElse == null)
                 {
                     // no else so jump to endif

@@ -1,0 +1,23 @@
+workspace
+	name = work
+	length = 1024
+end
+datafields
+	w-value = 1 / 4 / b / / [VALUE]
+	w-result = * / 10
+end
+process
+    w-result = "x"
+	if w-value in 1,2,3,4
+		w-result = "a"
+		if w-value >= 2
+			w-result = "b"
+		else
+			w-result = "c"
+		endif
+	endif
+	if w-value > 50
+		w-result = "d"
+	endif
+  	display "Result: [",w-result,"]"
+end

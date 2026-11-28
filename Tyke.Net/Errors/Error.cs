@@ -19,8 +19,13 @@ internal static class Error
 
     internal static void ReportError(string line)
     {
-        Console.WriteLine("Error: {0}", line);
+        Console.Error.WriteLine($"Error: {line}");
         ++_errorCount;
+
+        if (Tyke.Context.ThrowOnError)
+        {
+            throw new ApplicationException(line);
+        }
     }
 
     internal static void ReportError(string line, params object[] args)

@@ -8,10 +8,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Programs\SwitchTestExpressions.txt" />
-  </ItemGroup>
-
-  <ItemGroup>
+    <EmbeddedResource Include="Programs\IfElseEndif.txt" />
+    <EmbeddedResource Include="Programs\LoopUntilEndloop.txt" />
     <EmbeddedResource Include="Programs\SwitchTestExpressions.txt" />
     <EmbeddedResource Include="Programs\SwitchTestSimple.txt" />
   </ItemGroup>

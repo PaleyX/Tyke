@@ -53,7 +53,7 @@ internal abstract class DatafieldBase : Symbols.SymbolBase
 
     internal bool CheckAndValidateElements()
     {
-        bool result = true;
+        var result = true;
 
         // make sure everything is set
         if (string.IsNullOrWhiteSpace(Name))
@@ -123,8 +123,5 @@ internal abstract class DatafieldBase : Symbols.SymbolBase
         _elementsSet |= Elements.Length;
     }
 
-    private bool IsSet(Elements flag)
-    {
-        return (_elementsSet & flag) == flag;
-    }
+    private bool IsSet(Elements flag) => (_elementsSet & flag) == flag;
 }

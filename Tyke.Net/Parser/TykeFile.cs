@@ -104,5 +104,5 @@ internal static class TykeFile
         }
     }
 
-    internal static bool IsOpen { get; private set; }
+    private static bool IsOpen { get; set; }
 }

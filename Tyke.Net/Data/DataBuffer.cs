@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Buffers.Binary;
 using System.Diagnostics;
 using System.IO;
 using System.Numerics;
@@ -27,28 +28,9 @@ internal class DataBuffer
     // most recently set buffer
     internal static DataBuffer CurrentBuffer { get; private set; }
 
-    internal bool IsValidArea()
-    {
-        return _areaLength > 0;
-    }
+    internal bool IsValidArea() => _areaLength > 0;
 
     internal int AreaLength => _areaLength;
-
-    //internal void FillArea(byte value = 32)
-    //{
-    //    if (value == 32)
-    //    {
-    //        var block = BlockCache.GetBlock(AreaLength);
-    //        Buffer.BlockCopy(block, 0, _buffer, 0, AreaLength);
-    //    }
-    //    else
-    //    {
-    //        for (var i = 0; i < _areaLength; ++i)
-    //        {
-    //            _buffer[i] = value;
-    //        }
-    //    }
-    //}
 
     internal void FillArea(byte value = 32)
     {
@@ -60,62 +42,93 @@ internal class DataBuffer
         throw new NotImplementedException();
     }
 
+    //internal void Insert(string text, int offset, int length)
+    //{
+    //    // initialise with spaces 
+    //    Array.Fill(_buffer, (byte)32, offset, length);
+
+    //    // get ascii
+    //    var bytes = Encoding.ASCII.GetBytes(text);
+
+    //    // so we don't overwrite field length or area length
+    //    var copyLength = Math.Min(bytes.Length, length);
+    //    if (offset + copyLength > AreaLength)
+    //    {
+    //        copyLength = AreaLength - offset + 1;
+    //    }
+
+    //    // copy the string to buffer
+    //    Buffer.BlockCopy(bytes, 0, _buffer, offset, copyLength);
+    //}
+
     internal void Insert(string text, int offset, int length)
     {
-        // initialise with spaces 
-        //var block = BlockCache.GetBlock(length);
-        //Debug.Assert(block.Length == length);
-        //Buffer.BlockCopy(block, 0, _buffer, offset, length);
-        Array.Fill(_buffer, (byte)32, offset, length);
+        ArgumentNullException.ThrowIfNull(text);
 
-        // get ascii
-        var bytes = Encoding.ASCII.GetBytes(text);
+        // these should never fire - offsets and lengths are
+        // checked at compile time
+        Debug.Assert(offset >= 0);
+        Debug.Assert(length >= 0);
+        Debug.Assert(offset + length <= _buffer.Length);
 
-        // so we don't overwrite field length or area length
-        var copyLength = Math.Min(bytes.Length, length);
-        if (offset + copyLength > AreaLength)
+        var field = _buffer.AsSpan(offset, length);
+
+        // Initialise field to spaces.
+        field.Fill((byte)' ');
+
+        // Truncate source text to field size.
+        var source = text.AsSpan();
+        if (source.Length > field.Length)
         {
-            copyLength = AreaLength - offset + 1;
+            source = source[..field.Length];
         }
 
-        // copy the string to buffer
-        Buffer.BlockCopy(bytes, 0, _buffer, offset, copyLength);
+        Encoding.ASCII.GetBytes(source, field);
     }
-
+    
     internal void Insert(ushort value, int offset)
     {
-        var bytes = BitConverter.GetBytes(value);
-        Buffer.BlockCopy(bytes, 0, _buffer, offset, 2);
+        //Original
+        //var bytes = BitConverter.GetBytes(value);
+        //Buffer.BlockCopy(bytes, 0, _buffer, offset, 2);
+
+        // Fastest
+        //Unsafe.WriteUnaligned(
+        //    ref _buffer[offset],
+        //    value);
+
+        // Not quite as fast as the Unsafe one but more readable
+        BinaryPrimitives.WriteUInt16LittleEndian(
+            _buffer.AsSpan(offset),
+            value);
     }
 
     internal void Insert(uint value, int offset)
     {
-        var bytes = BitConverter.GetBytes(value);
-        Buffer.BlockCopy(bytes, 0, _buffer, offset, 4);
+        //var bytes = BitConverter.GetBytes(value);
+        //Buffer.BlockCopy(bytes, 0, _buffer, offset, 4);
+
+        BinaryPrimitives.WriteUInt32LittleEndian(
+            _buffer.AsSpan(offset),
+            value);
     }
 
     internal ushort GetBinaryU2(int offset)
     {
-        return BitConverter.ToUInt16(_buffer, offset);
+        //return BitConverter.ToUInt16(_buffer, offset);
+
+        return BinaryPrimitives.ReadUInt16LittleEndian(_buffer.AsSpan(offset));
     }
 
     internal uint GetBinaryU4(int offset)
     {
-        return BitConverter.ToUInt32(_buffer, offset);
+        //return BitConverter.ToUInt32(_buffer, offset);
+
+        return BinaryPrimitives.ReadUInt32LittleEndian(_buffer.AsSpan(offset));
     }
 
     internal string GetString(int offset, int length)
     {
-        // get trimmed length
-        var i = length + offset;
-        while (i >= offset)
-        {
-            if (_buffer[i] != 32)
-                break;
-
-            --i;
-        }
-
         return Encoding.ASCII.GetString(_buffer, offset, length).TrimEnd();
     }
 
@@ -170,6 +183,5 @@ internal class DataBuffer
     {
         ref var value = ref Unsafe.As<byte, T>(ref _buffer[offset]);
         value++;
-
     }
 }

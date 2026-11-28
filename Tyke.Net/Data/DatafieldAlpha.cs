@@ -9,16 +9,13 @@ internal class DatafieldAlpha : DatafieldBase
     {
     }
 
-    protected override bool ValidateFieldLengthForType()
-    {
-        return true;
-    }
+    protected override bool ValidateFieldLengthForType() => true;
 
     internal override void SetConstant(string constant)
     {
         if(Tools.StringTools.IsQuotedString(constant))
         {
-            string text = Tools.StringTools.GetQuotedString(constant);
+            var text = Tools.StringTools.GetQuotedString(constant);
             if(text.Length > Length)
                 Errors.Error.ReportError("Constant is longer than field");
             Set(text);
@@ -57,7 +54,7 @@ internal class DatafieldAlpha : DatafieldBase
 
         if (Tools.StringTools.CanConvert<uint>(source))
         {
-            var value = Tools.StringTools.Convert<uint>(ToString(), false);
+            var value = Tools.StringTools.Convert<uint>(source, false);
             x.Set(value);
         }
         else

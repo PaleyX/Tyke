@@ -1,6 +1,4 @@
 ﻿using System.Diagnostics;
-using System.Reflection;
-using System.Text;
 
 namespace UnitTests.ProcessTests;
 
@@ -14,7 +12,7 @@ public class SwitchTests
     [InlineData("3", "Three")]
     public async Task Switch_Simple_Branches_Correctly(string value, string result)
     {
-        var path = WriteControlFile("SwitchTestSimple", "[VALUE]", value);
+        var path = Tools.WriteControlFile("SwitchTestSimple", "[VALUE]", value);
 
         try
         {
@@ -29,7 +27,7 @@ public class SwitchTests
 
             Assert.Equal(0, process.ExitCode);
             Assert.Contains($"Result: [{result}]", stdout);
-            Assert.True(string.IsNullOrWhiteSpace(stderr));
+            Assert.True(string.IsNullOrWhiteSpace(stderr), "StdErr not empty");
         }
         finally
         {
@@ -47,7 +45,7 @@ public class SwitchTests
     [InlineData("12", "C")]
     public async Task Switch_Expressions_Branches_Correctly(string value, string result)
     {
-        var path = WriteControlFile("SwitchTestExpressions", "[VALUE]", value);
+        var path = Tools.WriteControlFile("SwitchTestExpressions", "[VALUE]", value);
 
         try
         {
@@ -71,31 +69,6 @@ public class SwitchTests
                 File.Delete(path);
             }
         }
-    }
-
-    private static string WriteControlFile(string name, string search, string replace)
-    {
-        var a = Assembly.GetExecutingAssembly();
-
-        using var stream = a.GetManifestResourceStream($"UnitTests.Programs.{name}.txt");
-        if (stream is null)
-        {
-            throw new Exception($"Cannot find resource: {name}");
-        }
-
-        string content;
-
-        using (var reader = new StreamReader(stream, Encoding.UTF8))
-        {
-            content = reader.ReadToEnd();
-        }
-
-        content = content.Replace(search, replace);
-
-        var pathname = Path.GetTempFileName();
-        File.WriteAllText(pathname, content);
-
-        return pathname;
     }
 }
 

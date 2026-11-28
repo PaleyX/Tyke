@@ -208,7 +208,7 @@ internal class CommandBinaryAssign : CommandBase
             Errors.Error.SyntaxError("Bad operator/operand sequence");
     }
 
-    private bool IsOperator(string element)
+    private static bool IsOperator(string element)
     {
         if (element.Length != 1)
             return false;
